@@ -14,9 +14,9 @@ dataset = load_dataset(
 
 bytes_written = 0
 line_count = 0
-print(f"Writing to file {to_use[0]}...")
+print(f"Writing to file {DATA[0]}...")
 
-with open(to_use[0], "w", encoding="utf-8") as f:
+with open(DATA[0], "w", encoding="utf-8") as f:
     for r in dataset:
         raw = r.get("text", "").strip()
 
@@ -32,8 +32,8 @@ with open(to_use[0], "w", encoding="utf-8") as f:
                 mb_written = bytes_written / (1024 * 1024)
                 print(f"Written: {mb_written:.2f} MB ({line_count} documents)")
 
-            if bytes_written >= to_use[1]:
+            if bytes_written >= DATA[1]:
                 print("Max bytes reached. Disconnecting stream")
                 break
 
-print(f"Done.\nFile saved as {to_use[0]}, {bytes_written / (1024 * 1024):.2f} MB")
+print(f"Done.\nFile saved as {DATA[0]}, {bytes_written / (1024 * 1024):.2f} MB")

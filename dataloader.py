@@ -21,6 +21,7 @@ class GPTDataset(Dataset):
 
 def create_dataloader(
     txt,
+    tokenizer,
     batch_size=4,
     max_length=256,
     stride=128,
@@ -42,7 +43,7 @@ def create_dataloader(
 
 
 if __name__ == "__main__":
-    tokenizer = BPEtokenizer()
+    tokenizeri = BPEtokenizer()
     print("Tokenizer initialized")
     dataloader = create_dataloader(
         "<|endoftext|>".join(TOKENIZER_DATA[:5]),

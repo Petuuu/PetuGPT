@@ -4,7 +4,7 @@ from functools import lru_cache
 import heapq
 import ast
 import re
-from config import TOKENIZER_FILE, VOCAB_SIZE
+from config import TOKENIZER_FILE, VOCAB_SIZE, CORES
 
 with open(TOKENIZER_FILE, "r", encoding="utf-8") as f:
     raw = f.readlines()
@@ -28,12 +28,10 @@ def _worker(lines):
     return local
 
 
-def compute_word_freqs(data, chunks=None):
+def compute_word_freqs(data):
     print("Starting pre-tokenization...")
-    if chunks is None:
-        chunks = cpu_count()
 
-    chunk_size = (len(data) + chunks - 1) // chunks
+    chunk_size = (len(data) + CORES - 1) // CORES
     chunks_data = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
 
     with Pool(cpu_count()) as pool:
@@ -150,9 +148,17 @@ def create_vocab(data, vocab_size):
 
 class BPEtokenizer:
     def __init__(self, data=TOKENIZER_DATA, vocab_size=VOCAB_SIZE):
-        with open("data\\tokenizer_settings.txt", "r", encoding="utf-8") as f:
-            data = ast.literal_eval(f.read())
-        self.token_to_id, self.id_to_token, self.vocab, self.merges = data
+        self.run = int(input("New (1) or backed up vocabulary (2)? "))
+        if self.run == 1:
+            config = create_vocab(data, vocab_size)
+        elif self.run == 2:
+            with open("data\\tokenizer_settings.txt", "r", encoding="utf-8") as f:
+                config = ast.literal_eval(f.read())
+        else:
+            print("INVALID INPUT")
+            exit()
+
+        self.token_to_id, self.id_to_token, self.vocab, self.merges = config
         self.merge_ranks = {pair: i for i, pair in enumerate(self.merges)}
 
     def encode_word(self, word):
@@ -161,7 +167,7 @@ class BPEtokenizer:
 
         tokens = list(word)
         if len(tokens) <= 1:
-            return [self.token_to_id.get(word, self.unk_id)]
+            return [self.token_to_id.get(word, 1)]
 
         while True:
             best_rank = None
@@ -204,25 +210,29 @@ class BPEtokenizer:
 
 if __name__ == "__main__":
     print("Cores available:", cpu_count())
-    tokenizer = BPEtokenizer()
+    tokenizeri = BPEtokenizer()
     print(
-        tokenizer.tokenize(
+        tokenizeri.tokenize(
             "The ([dominant]) sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train."
         )
     )
-    ids = tokenizer.encode(
+    ids = tokenizeri.encode(
         "The ([dominant]) sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train."
     )
     print(ids)
     print(len(ids))
-    print(tokenizer.decode(ids))
+    print(tokenizeri.decode(ids))
+    print(len(tokenizeri.vocab))
 
-    if input("Save tokenizer configuration? [y/N]: ") == "y":
+    if tokenizeri.run == 1 and input("Save tokenizer configuration? [y/N]: ") in {
+        "y",
+        "Y",
+    }:
         settings = [
-            tokenizer.token_to_id,
-            tokenizer.id_to_token,
-            tokenizer.vocab,
-            tokenizer.merges,
+            tokenizeri.token_to_id,
+            tokenizeri.id_to_token,
+            tokenizeri.vocab,
+            tokenizeri.merges,
         ]
         with open("data\tokenizer_configuration.txt", "w", encoding="utf-8") as f:
             f.write(f"{settings}")
