@@ -1,8 +1,9 @@
 import config as c
-from src.data import load_tokenizer_data
+from src.utils.data import load_tokenizer_data
 from collections import defaultdict
 from multiprocessing import Pool, cpu_count
 from functools import lru_cache
+import torch
 import argparse
 import heapq
 import sys, ast, re
@@ -159,7 +160,7 @@ class BPEtokenizer:
 
         self.token_to_id, self.id_to_token, self.vocab, self.merges = config
         self.merge_ranks = {pair: i for i, pair in enumerate(self.merges)}
-        print("Tokenizer initialized\n")
+        print("Tokenizer initialized")
 
         if new_vocab and input("Save tokenizer configuration? [y/N]: ") in {
             "y",
@@ -209,10 +210,10 @@ class BPEtokenizer:
 
     def encode(self, text):
         tokens = self.tokenize(text)
-        return [self.token_to_id.get(t, 1) for t in tokens]
+        return torch.tensor([self.token_to_id.get(t, 1) for t in tokens])
 
     def decode(self, ids):
-        text = "".join([self.id_to_token[x] for x in ids])
+        text = "".join([self.id_to_token[x] for x in ids.tolist()])
         return text.replace("G̃", " ")
 
 

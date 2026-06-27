@@ -1,11 +1,10 @@
-from src.tokenizer import BPEtokenizer, TOKENIZER_DATA
-import torch
+import config as c
 from torch.utils.data import Dataset, DataLoader
 
 
 class GPTDataset(Dataset):
     def __init__(self, txt, tokenizer, max_length, stride):
-        tokens = torch.tensor(tokenizer.encode(txt), dtype=torch.long)
+        tokens = tokenizer.encode(txt)
         windows = tokens.unfold(0, max_length + 1, stride)
         print("Data encoded")
 
@@ -27,7 +26,7 @@ def create_dataloader(
     stride=128,
     shuffle=True,
     drop_last=True,
-    num_workers=0,
+    num_workers=c.CORES,
 ):
     dataset = GPTDataset(txt, tokenizer, max_length, stride)
     print("Dataset created")
@@ -43,15 +42,16 @@ def create_dataloader(
 
 
 if __name__ == "__main__":
+    from src.build.tokenizer import BPEtokenizer, TOKENIZER_DATA
+
     tokenizeri = BPEtokenizer()
-    print("Tokenizer initialized")
     dataloader = create_dataloader(
         "<|endoftext|>".join(TOKENIZER_DATA[:5]),
+        tokenizer=tokenizeri,
         batch_size=8,
         max_length=4,
         stride=4,
         shuffle=False,
-        num_workers=12,
     )
     data_iter = iter(dataloader)
     inputs, targets = next(data_iter)
