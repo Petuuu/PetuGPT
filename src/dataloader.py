@@ -1,4 +1,4 @@
-from tokenizer import BPEtokenizer, TOKENIZER_DATA
+from src.tokenizer import BPEtokenizer, TOKENIZER_DATA
 import torch
 from torch.utils.data import Dataset, DataLoader
 

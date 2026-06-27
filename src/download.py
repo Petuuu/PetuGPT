@@ -1,9 +1,9 @@
+import config as c
 from dotenv import load_dotenv
-from config import *
 
 load_dotenv()
-os.environ["HF_TOKEN"] = os.environ.get("HF_TOKEN")
-os.environ["USE_TORCH"] = "0"
+c.os.environ["HF_TOKEN"] = c.os.environ.get("HF_TOKEN")
+c.os.environ["USE_TORCH"] = "0"
 
 from datasets import load_dataset
 
@@ -14,9 +14,9 @@ dataset = load_dataset(
 
 bytes_written = 0
 line_count = 0
-print(f"Writing to file {DATA[0]}...")
+print(f"Writing to file {c.DATA[0]}...")
 
-with open(DATA[0], "w", encoding="utf-8") as f:
+with open(c.DATA[0], "w", encoding="utf-8") as f:
     for r in dataset:
         raw = r.get("text", "").strip()
 
@@ -32,8 +32,8 @@ with open(DATA[0], "w", encoding="utf-8") as f:
                 mb_written = bytes_written / (1024 * 1024)
                 print(f"Written: {mb_written:.2f} MB ({line_count} documents)")
 
-            if bytes_written >= DATA[1]:
+            if bytes_written >= c.DATA[1]:
                 print("Max bytes reached. Disconnecting stream")
                 break
 
-print(f"Done.\nFile saved as {DATA[0]}, {bytes_written / (1024 * 1024):.2f} MB")
+print(f"Done.\nFile saved as {c.DATA[0]}, {bytes_written / (1024 * 1024):.2f} MB")

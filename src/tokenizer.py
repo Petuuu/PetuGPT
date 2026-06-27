@@ -1,17 +1,16 @@
+import config as c
+from src.data import load_tokenizer_data
 from collections import defaultdict
 from multiprocessing import Pool, cpu_count
 from functools import lru_cache
+import argparse
 import heapq
-import ast
-import re
-from config import TOKENIZER_FILE, VOCAB_SIZE, CORES
+import sys, ast, re
 
-with open(TOKENIZER_FILE, "r", encoding="utf-8") as f:
-    raw = f.readlines()
-TOKENIZER_DATA = [l.rstrip() for l in raw]
+TOKENIZER_DATA = load_tokenizer_data()
 
 pattern = re.compile(
-    r'<\|endoftext\|>|<\|unk\|>|---|--|...|..|\s*[A-Za-z0-9]+|[()[],._?!"\'-]'
+    r'<\|endoftext\|>|<\|unk\|>|--|...|..|\s*[A-Za-z0-9]+|[()[],._?!"\'—-]'
 )
 
 
@@ -31,7 +30,7 @@ def _worker(lines):
 def compute_word_freqs(data):
     print("Starting pre-tokenization...")
 
-    chunk_size = (len(data) + CORES - 1) // CORES
+    chunk_size = (len(data) + c.CORES - 1) // c.CORES
     chunks_data = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
 
     with Pool(cpu_count()) as pool:
@@ -137,7 +136,7 @@ def create_vocab(data, vocab_size):
         merges[pair] = newi
         vocab.append(newi)
 
-        if len(vocab) % 2000 == 0:
+        if len(vocab) % 1000 == 0:
             print("Vocab size:", len(vocab))
 
     token_to_id = {t: i for i, t in enumerate(vocab)}
@@ -147,19 +146,28 @@ def create_vocab(data, vocab_size):
 
 
 class BPEtokenizer:
-    def __init__(self, data=TOKENIZER_DATA, vocab_size=VOCAB_SIZE):
-        self.run = int(input("New (1) or backed up vocabulary (2)? "))
-        if self.run == 1:
+    def __init__(self, data=TOKENIZER_DATA, vocab_size=c.VOCAB_SIZE):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-nv", "--new-vocab", action="store_true")
+        new_vocab = parser.parse_args(sys.argv[1:]).new_vocab
+
+        if new_vocab:
             config = create_vocab(data, vocab_size)
-        elif self.run == 2:
+        else:
             with open("data\\tokenizer_settings.txt", "r", encoding="utf-8") as f:
                 config = ast.literal_eval(f.read())
-        else:
-            print("INVALID INPUT")
-            exit()
 
         self.token_to_id, self.id_to_token, self.vocab, self.merges = config
         self.merge_ranks = {pair: i for i, pair in enumerate(self.merges)}
+        print("Tokenizer initialized\n")
+
+        if new_vocab and input("Save tokenizer configuration? [y/N]: ") in {
+            "y",
+            "Y",
+        }:
+            settings = [self.token_to_id, self.id_to_token, self.vocab, self.merges]
+            with open(c.TOKENIZER_CONFIG, "w", encoding="utf-8") as f:
+                f.write(f"{settings}")
 
     def encode_word(self, word):
         if word in {"<|endoftext|>", "<|unk|>"}:
@@ -209,8 +217,8 @@ class BPEtokenizer:
 
 
 if __name__ == "__main__":
-    print("Cores available:", cpu_count())
     tokenizeri = BPEtokenizer()
+
     print(
         tokenizeri.tokenize(
             "The ([dominant]) sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train."
@@ -223,16 +231,3 @@ if __name__ == "__main__":
     print(len(ids))
     print(tokenizeri.decode(ids))
     print(len(tokenizeri.vocab))
-
-    if tokenizeri.run == 1 and input("Save tokenizer configuration? [y/N]: ") in {
-        "y",
-        "Y",
-    }:
-        settings = [
-            tokenizeri.token_to_id,
-            tokenizeri.id_to_token,
-            tokenizeri.vocab,
-            tokenizeri.merges,
-        ]
-        with open("data\tokenizer_configuration.txt", "w", encoding="utf-8") as f:
-            f.write(f"{settings}")
