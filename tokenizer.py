@@ -216,6 +216,13 @@ if __name__ == "__main__":
     print(ids)
     print(len(ids))
     print(tokenizer.decode(ids))
-    # settings = [tokenizer.token_to_id, tokenizer.id_to_token, tokenizer.vocab, tokenizer.merges]
-    # with open("data\tokenizer_settings.txt", "w", encoding="utf-8") as f:
-    #    f.write(f"{settings}")
+
+    if input("Save tokenizer configuration? [y/N]: ") == "y":
+        settings = [
+            tokenizer.token_to_id,
+            tokenizer.id_to_token,
+            tokenizer.vocab,
+            tokenizer.merges,
+        ]
+        with open("data\tokenizer_configuration.txt", "w", encoding="utf-8") as f:
+            f.write(f"{settings}")

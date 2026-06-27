@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from .0config import *
+from config import *
 
 load_dotenv()
 os.environ["HF_TOKEN"] = os.environ.get("HF_TOKEN")
