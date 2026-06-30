@@ -6,14 +6,14 @@ A GPT-2 model implemented, pre-trained and fine-tuned using *PyTorch*.
 
 
 ### Configuration and parameters
--                   | -
+.                   | Count
 ---                 | ---
 Vocabulary size     | 38,338
 Context length      | 1,024
 Embedding dimension | 768
 No. heads           | 12
 No. layers          | 12
-Dropout rate        | 0.1
+Dropout rate        | 10 %
 
 Layer                       | Origin                                                     | Params
 ---                         | ---                                                        | ---
@@ -24,7 +24,7 @@ Multilayer perceptron (MLP) | ???                                               
 Transformer blocks          | no. layers × (multi-head attention + MLP)                  | >28,311,552
 Final LayerNorm             | embedding dim × ???                                        | ?? ???
 Output                      | embedding dim × vocab size                                 | 29,443,584
-|
+||
 **Total**                   | embeddings + transformer blocks + final LayerNorm + output | >90,344,448
 
 ### Datasets
@@ -35,3 +35,6 @@ allenai/peS20 from Hugging Face: https://huggingface.co/datasets/allenai/peS2o
 
 ### Tokenizer
 - Byte-Pair Encoding (BPE)
+
+### NOTE
+- Scripts written for Windows -> file paths need to be modified if run on different OS. Notebook, however, written for Unix
