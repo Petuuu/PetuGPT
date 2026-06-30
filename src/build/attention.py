@@ -1,10 +1,10 @@
-import config as c
+import config as C
 import torch
 import torch.nn as nn
 
 
 class SelfAttentionLayer(nn.Module):
-    def __init__(self, d_in, d_out, qkv_bias=False):
+    def __init__(self, d_in, d_out, qkv_bias=C.QKV_BIAS):
         super().__init__()
         self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
@@ -24,7 +24,14 @@ class SelfAttentionLayer(nn.Module):
 
 
 class CausalAttentionLayer(nn.Module):
-    def __init__(self, d_in, d_out, context_len, dropout, qkv_bias=False):
+    def __init__(
+        self,
+        d_in,
+        d_out,
+        context_len=C.CONTEXT_LEN,
+        dropout=C.DROPOUT,
+        qkv_bias=C.QKV_BIAS,
+    ):
         super().__init__()
         self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
@@ -52,7 +59,15 @@ class CausalAttentionLayer(nn.Module):
 
 
 class MultiHeadAttentionLayer(nn.Module):
-    def __init__(self, d_in, d_out, context_len, dropout, num_heads, qkv_bias=False):
+    def __init__(
+        self,
+        d_in,
+        d_out,
+        context_len=C.CONTEXT_LEN,
+        dropout=C.DROPOUT,
+        num_heads=C.N_HEADS,
+        qkv_bias=C.QKV_BIAS,
+    ):
         super().__init__()
         assert d_out % num_heads == 0, "d_out must be divisble by num_heads"
 

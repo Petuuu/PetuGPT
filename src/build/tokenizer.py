@@ -1,9 +1,10 @@
-import config as c
+import config as C
 from src.utils.data import load_tokenizer_data
 from collections import defaultdict
 from multiprocessing import Pool, cpu_count
 from functools import lru_cache
 import torch
+import torch.nn.functional as F
 import argparse
 import heapq
 import sys, ast, re
@@ -31,7 +32,7 @@ def _worker(lines):
 def compute_word_freqs(data):
     print("Starting pre-tokenization...")
 
-    chunk_size = (len(data) + c.CORES - 1) // c.CORES
+    chunk_size = (len(data) + C.CORES - 1) // C.CORES
     chunks_data = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
 
     with Pool(cpu_count()) as pool:
@@ -56,7 +57,7 @@ def base_vocab(word_freqs):
             if l not in alphabet:
                 alphabet.append(l)
     alphabet.sort()
-    print("Base vocabulary initialized")
+    print("Base vocabulary initialized, length:", len(alphabet) + 2)
     return ["<|endoftext|>", "<|unk|>"] + alphabet.copy()
 
 
@@ -147,7 +148,7 @@ def create_vocab(data, vocab_size):
 
 
 class BPEtokenizer:
-    def __init__(self, data=TOKENIZER_DATA, vocab_size=c.VOCAB_SIZE):
+    def __init__(self, data=TOKENIZER_DATA, vocab_size=C.VOCAB_SIZE):
         parser = argparse.ArgumentParser()
         parser.add_argument("-nv", "--new-vocab", action="store_true")
         new_vocab = parser.parse_args(sys.argv[1:]).new_vocab
@@ -155,19 +156,16 @@ class BPEtokenizer:
         if new_vocab:
             config = create_vocab(data, vocab_size)
         else:
-            with open("data\\tokenizer_settings.txt", "r", encoding="utf-8") as f:
+            with open("data\\tokenizer_config.txt", "r", encoding="utf-8") as f:
                 config = ast.literal_eval(f.read())
 
         self.token_to_id, self.id_to_token, self.vocab, self.merges = config
         self.merge_ranks = {pair: i for i, pair in enumerate(self.merges)}
         print("Tokenizer initialized")
 
-        if new_vocab and input("Save tokenizer configuration? [y/N]: ") in {
-            "y",
-            "Y",
-        }:
+        if new_vocab and input("Save tokenizer configuration? [y/N]: ") == "y":
             settings = [self.token_to_id, self.id_to_token, self.vocab, self.merges]
-            with open(c.TOKENIZER_CONFIG, "w", encoding="utf-8") as f:
+            with open(C.TOKENIZER_CONFIG, "w", encoding="utf-8") as f:
                 f.write(f"{settings}")
 
     def encode_word(self, word):
@@ -208,13 +206,39 @@ class BPEtokenizer:
 
         return list(tokens)
 
-    def encode(self, text):
-        tokens = self.tokenize(text)
-        return torch.tensor([self.token_to_id.get(t, 1) for t in tokens])
+    def encode(self, *texts):
+        if len(texts) == 0:
+            raise TypeError(
+                "At least 2 argument must be given to BPEtokenizer.encode()"
+            )
 
-    def decode(self, ids):
-        text = "".join([self.id_to_token[x] for x in ids.tolist()])
-        return text.replace("G̃", " ")
+        tensors = [
+            torch.tensor([self.token_to_id.get(t, 1) for t in self.tokenize(text)])
+            for text in texts
+        ]
+
+        return tensors[0] if len(tensors) == 1 else tensors
+
+    def decode(self, *tensors):
+        if len(tensors) == 0:
+            raise TypeError(
+                "At least 2 argument must be given to BPEtokenizer.decode()"
+            )
+
+        texts = [
+            "".join([self.id_to_token[x] for x in t.tolist()]).replace("G̃", " ")
+            for t in tensors
+        ]
+
+        return texts[0] if len(texts) == 1 else tensors
+
+    def pad1d(self, tensors):
+        maxi = max(t.shape[0] for t in tensors)
+
+        if all(t.shape[0] == maxi for t in tensors):
+            return tensors
+
+        return [F.pad(t, (0, maxi - t.shape[0])) for t in tensors]
 
 
 if __name__ == "__main__":

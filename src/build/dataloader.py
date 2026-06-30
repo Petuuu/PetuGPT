@@ -1,4 +1,4 @@
-import config as c
+import config as C
 from torch.utils.data import Dataset, DataLoader
 
 
@@ -26,7 +26,7 @@ def create_dataloader(
     stride=128,
     shuffle=True,
     drop_last=True,
-    num_workers=c.CORES,
+    num_workers=C.CORES,
 ):
     dataset = GPTDataset(txt, tokenizer, max_length, stride)
     print("Dataset created")
