@@ -9,23 +9,25 @@ A GPT-2 model implemented, pre-trained and fine-tuned using *PyTorch*.
 -                   | -
 ---                 | ---
 Vocabulary size     | 38,338
-Context length      | 1,024
-Embedding dimension | 768
-No. heads           | 12
-No. layers          | 12
+Context length      | 4,096
+Embedding dimension | 1,024
+No. heads           | 16
+No. layers          | 24
 Dropout rate        | 0.1
 
-Layer                       | Origin                                                     | Params
----                         | ---                                                        | ---
-Token embeddings            | vocab size × embedding dim                                 | 29,443,584
-Positional embeddings       | context length × embedding dim                             | 786,432
-Multi-head attention        | 4 × embedding dim ^ 2 (Q, K, V, output)                    | 2,359,296
-Multilayer perceptron (MLP) | ???                                                        | ??? ???
-Transformer blocks          | no. layers × (multi-head attention + MLP)                  | >28,311,552
-Final LayerNorm             | embedding dim × ???                                        | ?? ???
-Output                      | embedding dim × vocab size                                 | 29,443,584
+Layer                 | Origin                                                      | Params
+---                   | ---                                                         | ---
+Token embeddings      | vocab size × embedding dim                                  | 39,258,112
+Positional embeddings | context length × embedding dim                              | 4,194,304
+Multi-head attention  | 4 × embedding dim ^ 2 + embedding dim (Q, K, V, output)     | 4,195,328
+Feed-forward          | 8 × embedding dim ^ 2 + 5 × embedding dim (bias)            | 8,393,728
+Transformer blocks    | no. layers × (multi-head attention + feed-forward + \* )    | 302,235,648
+Final normalization   | 2 × embedding dim                                           | 2,048
+Output                | embedding dim × vocab size                                  | 39,258,112 (no weight tying)
 |
-**Total**                   | embeddings + transformer blocks + final LayerNorm + output | >90,344,448
+**Total**             | embeddings + transformer blocks + final norm + output layer | 384,948,224
+
+\* 2 × normalization layers = 4 × embedding dim = 4,096
 
 ### Datasets
 allenai/peS20 from Hugging Face: https://huggingface.co/datasets/allenai/peS2o

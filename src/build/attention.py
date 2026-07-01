@@ -4,7 +4,7 @@ import torch.nn as nn
 
 
 class SelfAttentionLayer(nn.Module):
-    def __init__(self, d_in, d_out, qkv_bias=C.QKV_BIAS):
+    def __init__(self, d_in=C.EMB_DIM, d_out=C.EMB_DIM, qkv_bias=C.QKV_BIAS):
         super().__init__()
         self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
@@ -26,8 +26,8 @@ class SelfAttentionLayer(nn.Module):
 class CausalAttentionLayer(nn.Module):
     def __init__(
         self,
-        d_in,
-        d_out,
+        d_in=C.EMB_DIM,
+        d_out=C.EMB_DIM,
         context_len=C.CONTEXT_LEN,
         dropout=C.DROPOUT,
         qkv_bias=C.QKV_BIAS,
@@ -61,8 +61,8 @@ class CausalAttentionLayer(nn.Module):
 class MultiHeadAttentionLayer(nn.Module):
     def __init__(
         self,
-        d_in,
-        d_out,
+        d_in=C.EMB_DIM,
+        d_out=C.EMB_DIM,
         context_len=C.CONTEXT_LEN,
         dropout=C.DROPOUT,
         num_heads=C.N_HEADS,
@@ -82,8 +82,6 @@ class MultiHeadAttentionLayer(nn.Module):
         self.register_buffer(
             "mask", torch.triu(torch.ones(context_len, context_len), diagonal=1)
         )
-
-        print("Multi-head attention layer initializer")
 
     def forward(self, x):
         b, num_tokens, _ = x.shape

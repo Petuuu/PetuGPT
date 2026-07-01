@@ -161,7 +161,6 @@ class BPEtokenizer:
 
         self.token_to_id, self.id_to_token, self.vocab, self.merges = config
         self.merge_ranks = {pair: i for i, pair in enumerate(self.merges)}
-        print("Tokenizer initialized")
 
         if new_vocab and input("Save tokenizer configuration? [y/N]: ") == "y":
             settings = [self.token_to_id, self.id_to_token, self.vocab, self.merges]
