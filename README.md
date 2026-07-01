@@ -6,7 +6,7 @@ A GPT-2 model implemented, pre-trained and fine-tuned using *PyTorch*.
 
 
 ### Configuration and parameters
--                   | -
+.                   | Count
 ---                 | ---
 Vocabulary size     | 38,338
 Context length      | 4,096
@@ -37,3 +37,6 @@ allenai/peS20 from Hugging Face: https://huggingface.co/datasets/allenai/peS2o
 
 ### Tokenizer
 - Byte-Pair Encoding (BPE)
+
+### NOTE
+- Scripts written for Windows -> file paths need to be modified if run on different OS. Notebook, however, written for Unix
