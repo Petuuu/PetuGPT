@@ -3,7 +3,7 @@ import torch
 
 torch.manual_seed(1009)
 
-VOCAB_SIZE = 38338
+VOCAB_SIZE = 35093
 CONTEXT_LEN = 4096
 EMB_DIM = 1024
 N_HEADS = 16

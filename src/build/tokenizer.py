@@ -12,7 +12,7 @@ import sys, ast, re
 TOKENIZER_DATA = load_tokenizer_data()
 
 pattern = re.compile(
-    r'<\|endoftext\|>|<\|unk\|>|--|...|..|\s*[A-Za-z0-9]+|[()[],._?!"\'—-]'
+    r'<\|endoftext\|>|<\|unk\|>|--|\s*[A-Za-z0-9]+|[\(\)\[\],._?!"\'—-]'
 )
 
 
@@ -167,13 +167,10 @@ class BPEtokenizer:
             with open(C.TOKENIZER_CONFIG, "w", encoding="utf-8") as f:
                 f.write(f"{settings}")
 
-    def encode_word(self, word):
-        if word in {"<|endoftext|>", "<|unk|>"}:
-            return [self.token_to_id[word]]
-
+    def tokenize_word(self, word):
         tokens = list(word)
-        if len(tokens) <= 1:
-            return [self.token_to_id.get(word, 1)]
+        if word in {"<|endoftext|>", "<|unk|>"} or len(tokens) <= 1:
+            return [word]
 
         while True:
             best_rank = None
@@ -194,14 +191,14 @@ class BPEtokenizer:
         return tokens
 
     @lru_cache(maxsize=200_000)
-    def encode_word_cached(self, word):
-        return tuple(self.encode_word(word))
+    def tokenize_word_cached(self, word):
+        return tuple(self.tokenize_word(word))
 
     def tokenize(self, text):
         words = pre_tokenize(text)
         tokens = []
         for w in words:
-            tokens.extend(self.encode_word_cached(w))
+            tokens.extend(self.tokenize_word_cached(w))
 
         return list(tokens)
 
@@ -238,6 +235,15 @@ class BPEtokenizer:
             return tensors
 
         return [F.pad(t, (0, maxi - t.shape[0])) for t in tensors]
+
+    def unpad1d(self, tensors):
+        res = []
+        for t in tensors:
+            for i in range(t[0].shape[0], 0, -1):
+                if t[0, i - 1] != 0:
+                    res.append(t[:, :i])
+                    break
+        return res
 
 
 if __name__ == "__main__":
