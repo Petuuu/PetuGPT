@@ -2,9 +2,6 @@ import config as C
 import torch
 import torch.nn as nn
 
-# layernorm params: 2*emb_dim
-# feed-forward params: 2 * 4 * dim^2
-
 
 class LayerNorm(nn.Module):
     def __init__(self, dim=C.EMB_DIM):

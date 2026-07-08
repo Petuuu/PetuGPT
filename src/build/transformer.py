@@ -36,5 +36,3 @@ if __name__ == "__main__":
 
     print("Input shape:", x.shape)
     print("Output shape:", output.shape)
-    print()
-    print(sum(p.numel() for p in block.ff.parameters()))
