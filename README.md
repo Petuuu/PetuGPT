@@ -9,7 +9,7 @@ A GPT-2 model implemented, pre-trained and fine-tuned using *PyTorch*.
 .                   | Count
 ---                 | ---
 Vocabulary size     | 38,338
-Context length      | 4,096
+Context length      | 4,096 -> 516 for training, 1,024 for pretrained weights
 Embedding dimension | 1,024
 No. heads           | 16
 No. layers          | 24
@@ -18,14 +18,14 @@ Dropout rate        | 0.1
 Layer                 | Origin                                                      | Params
 ---                   | ---                                                         | ---
 Token embeddings      | vocab size × embedding dim                                  | 39,258,112
-Positional embeddings | context length × embedding dim                              | 4,194,304
+Positional embeddings | context length × embedding dim                              | TBD
 Multi-head attention  | 4 × embedding dim ^ 2 + embedding dim (Q, K, V, output)     | 4,195,328
 Feed-forward          | 8 × embedding dim ^ 2 + 5 × embedding dim (bias)            | 8,393,728
 Transformer blocks    | no. layers × (multi-head attention + feed-forward + \* )    | 302,235,648
 Final normalization   | 2 × embedding dim                                           | 2,048
 Output                | embedding dim × vocab size                                  | 39,258,112 (no weight tying)
 |
-**Total**             | embeddings + transformer blocks + final norm + output layer | 384,948,224
+**Total**             | embeddings + transformer blocks + final norm + output layer | 380,753,920 + pos embeddings
 
 \* 2 × normalization layers = 4 × embedding dim = 4,096
 

@@ -33,6 +33,71 @@ def calc_loss_loader(data_loader, model, device=C.DEVICE, num_batches=None):
     return total_loss / num_batches
 
 
+def evaluate_model(model, train_loader, val_loader, eval_iter, device=C.DEVICE):
+    model.eval()
+    with torch.no_grad():
+        train_loss = calc_loss_loader(
+            train_loader, model, device, num_batches=eval_iter
+        )
+        val_loss = calc_loss_loader(val_loader, model, device, num_batches=eval_iter)
+    model.train()
+    return train_loss, val_loss
+
+
+def generate_and_print_sample(model, tokenizer, start_context, device):
+    model.eval()
+    context_size = model.pos_emb.weight.shape[0]
+    encoded = tokenizer.encode(start_context).to(device)
+    with torch.no_grad():
+        token_ids = model.generate(encoded, 50, context_size)
+    decoded = tokenizer.decode(token_ids)
+    print(decoded.replace("\n", " "))
+    model.train()
+
+
+def train_model(
+    model,
+    tokenizer,
+    train_loader,
+    val_loader,
+    optimizer,
+    num_epochs,
+    eval_freq,
+    eval_iter,
+    start_context,
+    device=C.DEVICE,
+):
+    train_losses, val_losses, track_tokens_seen = [], [], []
+    tokens_seen, global_step = 0, -1
+
+    for epoch in range(num_epochs):
+        model.train()
+        for input_batch, target_batch in train_loader:
+            optimizer.zero_grad()
+            loss = calc_loss_batch(input_batch, target_batch, model, device)
+            loss.backward()
+            optimizer.step()
+            tokens_seen += input_batch.numel()
+            global_step += 1
+
+            if global_step % eval_freq == 0:
+                train_loss, val_loss = evaluate_model(
+                    model, train_loader, val_loader, eval_iter, device
+                )
+                train_losses.append(train_loss)
+                val_losses.append(val_loss)
+                track_tokens_seen.append(tokens_seen)
+                print(
+                    f"{f'epoch {epoch + 1:03d} (step {global_step:06d})':<28} | "
+                    f"{f'train_loss={train_loss:.3f}':<18} | "
+                    f"{f'val_loss={val_loss:.3f}':<18}"
+                )
+
+        generate_and_print_sample(model, tokenizer, start_context, device)
+
+    return train_losses, val_losses, track_tokens_seen
+
+
 if __name__ == "__main__":
     tokenizer = BPETokenizer()
     sample_data = load_sample_data()
@@ -51,50 +116,16 @@ if __name__ == "__main__":
 
     model = GPTModel()
     model.to(C.DEVICE)
-    with torch.no_grad():
-        train_loss = calc_loss_loader(train_loader, model)
-        val_loss = calc_loss_loader(val_loader, model)
-    print("Training loss:", train_loss)
-    print("Validation loss:", val_loss)
-
-
-#### JUNK !!!
-
-if __name__ == "_main__":
-    tokenizer = BPETokenizer()
-    txt1 = "Every effort moves you"
-    txt2 = "Every day holds a picos"
-    batch = [t.unsqueeze(0) for t in tokenizer.encode(txt1, txt2)]
-    batch = torch.stack(batch, dim=0)
-    print(batch)
-    print(batch.shape)
-    print()
-
-    torch.set_printoptions(sci_mode=False)
-    model = GPTModel()
-    model.eval()
-    for out in model.generate(batch, 6):
-        print("Output:", out)
-        print("Decoded:", tokenizer.decode(out.squeeze(0)))
-        print()
-
-if __name__ == "_main__":
-    tokenizer = BPETokenizer()
-    txt1 = "Every effort moves you"
-    txt2 = "Every day holds a picos"
-    batch = tokenizer.encode(txt1, txt2)
-    batch = torch.stack(batch, dim=0)
-    print(batch)
-    print(batch.shape)
-    print()
-
-    model = GPTModel()
-    torch.set_printoptions(sci_mode=False)
-    with torch.no_grad():
-        logits = model(batch)
-
-    probas = torch.softmax(logits, dim=-1)
-    idx_next = torch.argmax(probas, dim=-1, keepdim=True)
-    print(probas.shape)
-    print(probas)
-    print(idx_next)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.0004, weight_decay=0.1)
+    num_epochs = 0.1
+    train_losses, val_losses, tokens_seen = train_model(
+        model=model,
+        tokenizer=tokenizer,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        optimizer=optimizer,
+        num_epochs=num_epochs,
+        eval_freq=5,
+        eval_iter=5,
+        start_context="Every effort moves you",
+    )
