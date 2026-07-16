@@ -6,7 +6,6 @@ class GPTDataset(Dataset):
     def __init__(self, txt, tokenizer, max_length, stride):
         tokens = tokenizer.encode(txt)
         windows = tokens.unfold(0, max_length + 1, stride)
-        print("Data encoded")
 
         self.input_ids = windows[:, :-1]
         self.target_ids = windows[:, 1:]
@@ -29,7 +28,6 @@ def create_dataloader(
     num_workers=C.CORES,
 ):
     dataset = GPTDataset(txt, tokenizer, max_length, stride)
-    print("Dataset created")
     dataloader = DataLoader(
         dataset,
         batch_size=batch_size,
@@ -37,14 +35,13 @@ def create_dataloader(
         drop_last=drop_last,
         num_workers=num_workers,
     )
-    print("Dataloader created")
     return dataloader
 
 
 if __name__ == "__main__":
-    from src.build.tokenizer import BPEtokenizer, TOKENIZER_DATA
+    from src.build.tokenizer import BPETokenizer, TOKENIZER_DATA
 
-    tokenizeri = BPEtokenizer()
+    tokenizeri = BPETokenizer()
     dataloader = create_dataloader(
         "<|endoftext|>".join(TOKENIZER_DATA[:5]),
         tokenizer=tokenizeri,

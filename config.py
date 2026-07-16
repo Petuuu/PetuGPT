@@ -3,14 +3,16 @@ import torch
 
 torch.manual_seed(1009)
 
-VOCAB_SIZE = 35093
-CONTEXT_LEN = 4096
+VOCAB_SIZE = 45098
+CONTEXT_LEN = 2048
 EMB_DIM = 1024
 N_HEADS = 16
 N_LAYERS = 24
 DROPOUT = 0.1
 QKV_BIAS = False
+TRAIN_RATIO = 0.9
 
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 CORES = 10
 SAMPLE_BYTES = 30 * 1024 * 1024
 TOKENIZER_BYTES = 500 * 1024 * 1024

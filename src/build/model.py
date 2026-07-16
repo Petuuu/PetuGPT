@@ -1,9 +1,7 @@
 import config as C
 import torch
 import torch.nn as nn
-from src.build.tokenizer import BPEtokenizer
-from src.utils.dataloader import create_dataloader
-from src.build.attention import MultiHeadAttentionLayer
+from src.build.tokenizer import BPETokenizer
 from src.build.transformer import TransformerBlock
 from src.build.MLP import LayerNorm
 
@@ -32,47 +30,36 @@ class GPTModel(nn.Module):
         return self.out_head(x)  # logits
 
     def generate(self, idx, max_tokens, context_len=C.CONTEXT_LEN):
-        for _ in range(max_tokens):
-            idx_cond = idx[:, -context_len:]
-            with torch.no_grad():
-                logits = self(idx_cond)
+        res = []
+        for t in idx:
+            for i in range(t[0].shape[0], 0, -1):
+                if t[0, i - 1] != 0:
+                    res.append(t[:, :i])
+                    break
 
-            logits = logits[:, -1, :]
-            probas = torch.softmax(logits, dim=-1)
-            idx_next = torch.argmax(probas, dim=-1, keepdim=True)
-            idx = torch.cat((idx, idx_next), dim=1)
+        for b in range(len(res)):
+            for _ in range(max_tokens):
+                idx_cond = res[b][:, -context_len:]
+                with torch.no_grad():
+                    logits = self(idx_cond)
 
-        return idx
+                logits = logits[:, -1, :]
+                probas = torch.softmax(logits, dim=-1)
+                idx_next = torch.argmax(probas, dim=-1, keepdim=True)
+                res[b] = torch.cat((res[b], idx_next), dim=1)
+
+        return res
 
 
 if __name__ == "__main__":
-    tokenizer = BPEtokenizer()
-    txt1 = "Every effort moves you"
-    txt2 = "Every day holds a"
-    batch = tokenizer.encode(txt1, txt2)
-    batch = tokenizer.pad1d(batch)
-    batch = torch.stack(batch, dim=0)
-
-    start = "Hello, I am"
-    encoded = tokenizer.encode(start).unsqueeze(0)
+    tokenizer = BPETokenizer()
+    encoded = tokenizer.encode("Hello, I am").unsqueeze(0).unsqueeze(0)
     print("Encoded:", encoded)
 
     model = GPTModel()
     model.eval()
-    out = model.generate(encoded, 6)
-
     torch.set_printoptions(sci_mode=False)
-    print("Output:", out)
-    print("Output length:", len(out[0]))
-    print("Decoded:", tokenizer.decode(out.squeeze(0)))
-
-    # tok_emb = sum(p.numel() for p in model.tok_emb.parameters())
-    # pos_emb = sum(p.numel() for p in model.pos_emb.parameters())
-    # trf_blocks = sum(p.numel() for p in model.trf_blocks.parameters())
-    # final_norm = sum(p.numel() for p in model.final_norm.parameters())
-    # params = sum(p.numel() for p in model.parameters())
-    # print(f"Token embedding & output layer parameters: {tok_emb:,}")
-    # print(f"Position embedding parameters: {pos_emb:,}")
-    # print(f"Transformer parameters: {trf_blocks:,}")
-    # print(f"Final normalization parameters: {final_norm:,}")
-    # print(f"\nTotal number of parameters: {params:,}")
+    for out in model.generate(encoded, 6):
+        print("Output:", out)
+        print("Output length:", len(out[0]))
+        print("Decoded:", tokenizer.decode(out.squeeze(0)))

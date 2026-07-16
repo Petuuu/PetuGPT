@@ -12,7 +12,7 @@ import sys, ast, re
 TOKENIZER_DATA = load_tokenizer_data()
 
 pattern = re.compile(
-    r'<\|endoftext\|>|<\|unk\|>|--|\s*[A-Za-z0-9]+|[\(\)\[\],._?!"\'—-]'
+    r'<\|endoftext\|>|<\|unk\|>|--|\s*[A-Za-z0-9]+|[\(\)\[\],._?!"\'—%&$€£-]'
 )
 
 
@@ -147,7 +147,7 @@ def create_vocab(data, vocab_size):
     return token_to_id, id_to_token, vocab, merges
 
 
-class BPEtokenizer:
+class BPETokenizer:
     def __init__(self, data=TOKENIZER_DATA, vocab_size=C.VOCAB_SIZE):
         parser = argparse.ArgumentParser()
         parser.add_argument("-nv", "--new-vocab", action="store_true")
@@ -202,10 +202,18 @@ class BPEtokenizer:
 
         return list(tokens)
 
+    def pad1d(self, tensors):
+        maxi = max(t.shape[0] for t in tensors)
+
+        if all(t.shape[0] == maxi for t in tensors):
+            return tensors
+
+        return [F.pad(t, (0, maxi - t.shape[0])) for t in tensors]
+
     def encode(self, *texts):
         if len(texts) == 0:
             raise TypeError(
-                "At least 2 argument must be given to BPEtokenizer.encode()"
+                "At least 2 argument must be given to BPETokenizer.encode()"
             )
 
         tensors = [
@@ -213,12 +221,12 @@ class BPEtokenizer:
             for text in texts
         ]
 
-        return tensors[0] if len(tensors) == 1 else tensors
+        return tensors[0] if len(tensors) == 1 else self.pad1d(tensors)
 
     def decode(self, *tensors):
         if len(tensors) == 0:
             raise TypeError(
-                "At least 2 argument must be given to BPEtokenizer.decode()"
+                "At least 2 argument must be given to BPETokenizer.decode()"
             )
 
         texts = [
@@ -228,26 +236,9 @@ class BPEtokenizer:
 
         return texts[0] if len(texts) == 1 else tensors
 
-    def pad1d(self, tensors):
-        maxi = max(t.shape[0] for t in tensors)
-
-        if all(t.shape[0] == maxi for t in tensors):
-            return tensors
-
-        return [F.pad(t, (0, maxi - t.shape[0])) for t in tensors]
-
-    def unpad1d(self, tensors):
-        res = []
-        for t in tensors:
-            for i in range(t[0].shape[0], 0, -1):
-                if t[0, i - 1] != 0:
-                    res.append(t[:, :i])
-                    break
-        return res
-
 
 if __name__ == "__main__":
-    tokenizeri = BPEtokenizer()
+    tokenizeri = BPETokenizer()
 
     print(
         tokenizeri.tokenize(
