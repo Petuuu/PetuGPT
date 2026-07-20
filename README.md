@@ -24,7 +24,7 @@ Feed-forward          | 8 × embedding dim ^ 2 + 5 × embedding dim (bias)      
 Transformer blocks    | no. layers × (multi-head attention + feed-forward + \* )    | 302,235,648
 Final normalization   | 2 × embedding dim                                           | 2,048
 Output                | embedding dim × vocab size                                  | 39,258,112 (no weight tying)
-|
+||
 **Total**             | embeddings + transformer blocks + final norm + output layer | 380,753,920 + pos embeddings
 
 \* 2 × normalization layers = 4 × embedding dim = 4,096
