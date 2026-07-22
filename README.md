@@ -31,9 +31,9 @@ Output                | embedding dim × vocab size                             
 
 ### Datasets
 allenai/peS20 from Hugging Face: https://huggingface.co/datasets/allenai/peS2o
-- 500 MB used for creating BPE vocabulary
-- n GB used for pre-training
-- n GB used for validation
+- 30 MB used for creating BPE vocabulary
+- 900 MB used for pre-training
+- 100 MB used for validation
 
 ### Tokenizer
 - Byte-Pair Encoding (BPE)
