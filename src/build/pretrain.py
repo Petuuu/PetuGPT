@@ -147,4 +147,10 @@ if __name__ == "__main__":
             start_context="Every effort moves you",
         )
     )
-    torch.save(model.state_dict(), C.MODEL_FILE)
+    torch.save(
+        {
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+        },
+        C.MODEL_FILE,
+    )
