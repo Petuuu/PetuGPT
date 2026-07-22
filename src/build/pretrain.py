@@ -1,6 +1,8 @@
 import config as C
 import torch
 import torch.nn.functional as F
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 from src.build.tokenizer import BPETokenizer
 from src.build.model import GPTModel
 from src.utils.dataloader import create_dataloader
@@ -98,6 +100,20 @@ def train_model(
     return train_losses, val_losses, track_tokens_seen
 
 
+def plot_losses(epochs, train_losses, val_losses, tokens_seen):
+    fig, ax1 = plt.subplots(figsize=(5, 3))
+    ax1.plot(epochs, val_losses, linestyle="-.", label="Validation loss")
+    ax1.set_xlabel("Epochs")
+    ax1.set_ylabel("Loss")
+    ax1.legend(loc="upper right")
+    ax1.xaxis.set_major_locator(MaxNLocator)
+    ax2 = ax1.twiny()
+    ax2.plot(tokens_seen, train_losses, alpha=0)
+    ax2.set_xlabel("Tokens seen")
+    fig.tight_layout()
+    plt.show()
+
+
 if __name__ == "__main__":
     tokenizer = BPETokenizer()
     sample_data = load_sample_data()
@@ -118,14 +134,17 @@ if __name__ == "__main__":
     model.to(C.DEVICE)
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.0004, weight_decay=0.1)
     num_epochs = 0.1
-    train_losses, val_losses, tokens_seen = train_model(
-        model=model,
-        tokenizer=tokenizer,
-        train_loader=train_loader,
-        val_loader=val_loader,
-        optimizer=optimizer,
-        num_epochs=num_epochs,
-        eval_freq=5,
-        eval_iter=5,
-        start_context="Every effort moves you",
+    plot_losses(
+        train_model(
+            model=model,
+            tokenizer=tokenizer,
+            train_loader=train_loader,
+            val_loader=val_loader,
+            optimizer=optimizer,
+            num_epochs=num_epochs,
+            eval_freq=5,
+            eval_iter=5,
+            start_context="Every effort moves you",
+        )
     )
+    torch.save(model.state_dict(), C.MODEL_FILE)

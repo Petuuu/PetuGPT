@@ -29,7 +29,15 @@ class GPTModel(nn.Module):
         x = self.final_norm(x)
         return self.out_head(x)  # logits
 
-    def generate(self, idx, max_tokens, context_len=C.CONTEXT_LEN):
+    def generate(
+        self,
+        idx,
+        max_tokens,
+        context_len=C.CONTEXT_LEN,
+        temp=0.0,
+        top_k=None,
+        eos_id=0,
+    ):
         res = []
         for t in idx:
             for i in range(t[0].shape[0], 0, -1):
@@ -42,10 +50,25 @@ class GPTModel(nn.Module):
                 idx_cond = res[b][:, -context_len:]
                 with torch.no_grad():
                     logits = self(idx_cond)
-
                 logits = logits[:, -1, :]
-                probas = torch.softmax(logits, dim=-1)
-                idx_next = torch.argmax(probas, dim=-1, keepdim=True)
+
+                if top_k is not None:
+                    top_logits, _ = torch.topk(logits, top_k)
+                    logits = torch.where(
+                        logits < top_logits[:, -1],
+                        torch.tensor(float("-inf")).to(logits.device),
+                        logits,
+                    )
+
+                if temp > 0.0:
+                    probas = torch.softmax(logits / temp, dim=-1)
+                    idx_next = torch.multinomial(probas, num_samples=1)
+                else:
+                    probas = torch.softmax(logits, dim=-1)
+                    idx_next = torch.argmax(probas, dim=-1, keepdim=True)
+
+                if idx_next == eos_id:
+                    break
                 res[b] = torch.cat((res[b], idx_next), dim=1)
 
         return res

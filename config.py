@@ -21,4 +21,5 @@ SAMPLE_FILE = "data\\academic_sample.txt"
 TOKENIZER_FILE = "data\\academic_tokenizing.txt"
 TOKENIZER_CONFIG = "data\\tokenizer_config.txt"
 PRETRAINING_FILE = "data\\academic_pretraining.txt"
+MODEL_FILE = "data\\model.pth"
 DATA = [SAMPLE_FILE, SAMPLE_BYTES]
