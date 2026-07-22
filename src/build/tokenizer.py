@@ -156,7 +156,7 @@ class BPETokenizer:
         if new_vocab:
             config = create_vocab(data, vocab_size)
         else:
-            with open("data\\tokenizer_config.txt", "r", encoding="utf-8") as f:
+            with open("data/tokenizer_config.txt", "r", encoding="utf-8") as f:
                 config = ast.literal_eval(f.read())
 
         self.token_to_id, self.id_to_token, self.vocab, self.merges = config
@@ -229,12 +229,41 @@ class BPETokenizer:
                 "At least 2 argument must be given to BPETokenizer.decode()"
             )
 
-        texts = [
-            "".join([self.id_to_token[x] for x in t.tolist()]).replace("G̃", " ")
-            for t in tensors
-        ]
+        def to_ids(value):
+            if isinstance(value, torch.Tensor):
+                return value.detach().cpu().reshape(-1).tolist()
 
-        return texts[0] if len(texts) == 1 else tensors
+            if isinstance(value, (list, tuple)):
+                if value and any(
+                    isinstance(item, (torch.Tensor, list, tuple)) for item in value
+                ):
+                    return [item for item in value]
+                return [int(item) for item in value]
+
+            if hasattr(value, "tolist"):
+                raw = value.tolist()
+                if isinstance(raw, list):
+                    return [int(item) for item in raw]
+                return [int(raw)]
+
+            return [int(value)]
+
+        if len(tensors) == 1 and isinstance(tensors[0], (list, tuple)):
+            first = tensors[0]
+            if first and any(
+                isinstance(item, (torch.Tensor, list, tuple)) for item in first
+            ):
+                tensors = tuple(first)
+
+        def decode_one(value):
+            ids = to_ids(value)
+            if ids and isinstance(ids[0], (torch.Tensor, list, tuple)):
+                return [decode_one(item) for item in ids]
+            return "".join([self.id_to_token[x] for x in ids]).replace("G̃", " ")
+
+        texts = [decode_one(t) for t in tensors]
+
+        return texts[0] if len(texts) == 1 else texts
 
 
 if __name__ == "__main__":

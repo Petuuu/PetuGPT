@@ -101,12 +101,15 @@ def train_model(
 
 
 def plot_losses(epochs, train_losses, val_losses, tokens_seen):
+    if isinstance(epochs, int) or len(epochs) != len(val_losses):
+        epochs = list(range(1, len(val_losses) + 1))
+
     fig, ax1 = plt.subplots(figsize=(5, 3))
     ax1.plot(epochs, val_losses, linestyle="-.", label="Validation loss")
-    ax1.set_xlabel("Epochs")
+    ax1.set_xlabel("Checkpoints")
     ax1.set_ylabel("Loss")
     ax1.legend(loc="upper right")
-    ax1.xaxis.set_major_locator(MaxNLocator)
+    ax1.xaxis.set_major_locator(MaxNLocator())
     ax2 = ax1.twiny()
     ax2.plot(tokens_seen, train_losses, alpha=0)
     ax2.set_xlabel("Tokens seen")
@@ -133,9 +136,10 @@ if __name__ == "__main__":
     model = GPTModel()
     model.to(C.DEVICE)
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.0004, weight_decay=0.1)
-    num_epochs = 0.1
+    num_epochs = 10
     plot_losses(
-        train_model(
+        num_epochs,
+        *train_model(
             model=model,
             tokenizer=tokenizer,
             train_loader=train_loader,
@@ -145,7 +149,7 @@ if __name__ == "__main__":
             eval_freq=5,
             eval_iter=5,
             start_context="Every effort moves you",
-        )
+        ),
     )
     torch.save(
         {

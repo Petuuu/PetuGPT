@@ -38,11 +38,16 @@ class GPTModel(nn.Module):
         top_k=None,
         eos_id=0,
     ):
+        while idx.dim() > 2 and idx.shape[0] == 1:
+            idx = idx.squeeze(0)
+        if idx.dim() == 1:
+            idx = idx.unsqueeze(0)
+
         res = []
         for t in idx:
-            for i in range(t[0].shape[0], 0, -1):
-                if t[0, i - 1] != 0:
-                    res.append(t[:, :i])
+            for i in range(t.shape[0], 0, -1):
+                if t[i - 1] != 0:
+                    res.append(t[:i].unsqueeze(0))
                     break
 
         for b in range(len(res)):
