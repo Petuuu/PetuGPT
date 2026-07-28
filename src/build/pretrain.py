@@ -137,10 +137,10 @@ if __name__ == "__main__":
 
     train_data, val_data = full[:split_idx], full[split_idx:]
     train_loader = create_dataloader(
-        train_data, tokenizer=tokenizer, batch_size=4, num_workers=4
+        train_data, tokenizer=tokenizer, batch_size=8, num_workers=12
     )
     val_loader = create_dataloader(
-        val_data, tokenizer=tokenizer, batch_size=4, num_workers=4
+        val_data, tokenizer=tokenizer, batch_size=8, num_workers=12
     )
     print(f"Train loader - {len(train_loader)} batches:")
     print(f"Validation loader - {len(val_loader)} batches")
