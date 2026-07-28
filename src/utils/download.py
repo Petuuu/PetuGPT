@@ -1,9 +1,9 @@
-import config as c
+import config as C
 from dotenv import load_dotenv
 
 load_dotenv()
-c.os.environ["HF_TOKEN"] = c.os.environ.get("HF_TOKEN")
-c.os.environ["USE_TORCH"] = "0"
+C.os.environ["HF_TOKEN"] = C.os.environ.get("HF_TOKEN")
+C.os.environ["USE_TORCH"] = "0"
 
 from datasets import load_dataset
 

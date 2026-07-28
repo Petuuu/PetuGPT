@@ -9,7 +9,7 @@ A GPT-2 model implemented, pre-trained and fine-tuned using *PyTorch*.
 .                   | Count
 ---                 | ---
 Vocabulary size     | 38,338
-Context length      | 4,096 -> 516 for training, 1,024 for pretrained weights
+Context length      | 516 for own training, 1,024 for pretrained weights
 Embedding dimension | 1,024
 No. heads           | 16
 No. layers          | 24
