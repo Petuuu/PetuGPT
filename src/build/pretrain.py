@@ -105,14 +105,26 @@ def plot_losses(epochs, train_losses, val_losses, tokens_seen):
         epochs = list(range(1, len(val_losses) + 1))
 
     fig, ax1 = plt.subplots(figsize=(5, 3))
+
+    ax1.plot(epochs, train_losses, label="Training loss")
     ax1.plot(epochs, val_losses, linestyle="-.", label="Validation loss")
+
     ax1.set_xlabel("Checkpoints")
     ax1.set_ylabel("Loss")
     ax1.legend(loc="upper right")
     ax1.xaxis.set_major_locator(MaxNLocator())
+
     ax2 = ax1.twiny()
-    ax2.plot(tokens_seen, train_losses, alpha=0)
+    ax2.set_xlim(ax1.get_xlim())
+    ax2.set_xticks(ax1.get_xticks())
+    ax2.set_xticklabels(
+        [
+            f"{int(tokens_seen[min(i, len(tokens_seen)-1)])}"
+            for i in range(len(ax1.get_xticks()))
+        ]
+    )
     ax2.set_xlabel("Tokens seen")
+
     fig.tight_layout()
     plt.show()
 
