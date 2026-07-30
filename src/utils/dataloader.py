@@ -1,5 +1,6 @@
 import config as C
 from torch.utils.data import Dataset, DataLoader
+from torch.utils.data.distributed import DistributedSampler
 
 
 class GPTDataset(Dataset):
@@ -26,14 +27,19 @@ def create_dataloader(
     shuffle=True,
     drop_last=True,
     num_workers=C.CORES,
+    distributed=False,
 ):
     dataset = GPTDataset(txt, tokenizer, max_length, stride)
+    sampler = None if not distributed else DistributedSampler(dataset)
+
     dataloader = DataLoader(
         dataset,
         batch_size=batch_size,
-        shuffle=shuffle,
+        shuffle=(shuffle and sampler is None),
+        sampler=sampler,
         drop_last=drop_last,
         num_workers=num_workers,
+        pin_memory=True,
     )
     return dataloader
 

@@ -1,0 +1,578 @@
+!!! TEXTS GENERATED WITH TEMP=0.0 AND TOP_K=NONE
+----------------------------------------------------------------------------------
+PyTorch version 2.10.0, machine learning library for Python.
+
+For more help see: https://docs.csc.fi/apps/pytorch/
+----------------------------------------------------------------------------------
+CUDA AVAILABLE: True
+CUDA AVAILABLE: True
+CUDA AVAILABLE: True
+CUDA AVAILABLE: True
+Train loader - 2747 batches:
+Validation loader - 1221 batches
+Model initialized
+Model initialized
+Model initialized
+Model initialized
+epoch 001 (step 00000)  | train_loss=10.347 | val_loss=10.345
+epoch 001 (step 00050)
+epoch 001 (step 00100)
+epoch 001 (step 00150)  | train_loss=4.775 | val_loss=4.767
+epoch 001 (step 00200)
+epoch 001 (step 00250)
+epoch 001 (step 00300)  | train_loss=4.373 | val_loss=4.338
+epoch 001 (step 00350)
+epoch 001 (step 00400)
+epoch 001 (step 00450)  | train_loss=4.244 | val_loss=4.201
+epoch 001 (step 00500)
+epoch 001 (step 00550)
+epoch 001 (step 00600)  | train_loss=4.171 | val_loss=4.186
+epoch 001 (step 00650)
+epoch 001 (step 00700)
+epoch 001 (step 00750)  | train_loss=4.117 | val_loss=4.104
+epoch 001 (step 00800)
+epoch 001 (step 00850)
+epoch 001 (step 00900)  | train_loss=4.077 | val_loss=4.053
+epoch 001 (step 00950)
+epoch 001 (step 01000)
+epoch 001 (step 01050)  | train_loss=4.045 | val_loss=4.020
+epoch 001 (step 01100)
+epoch 001 (step 01150)
+epoch 001 (step 01200)  | train_loss=4.017 | val_loss=4.011
+epoch 001 (step 01250)
+epoch 001 (step 01300)
+epoch 001 (step 01350)  | train_loss=3.992 | val_loss=3.962
+epoch 001 (step 01400)
+epoch 001 (step 01450)
+epoch 001 (step 01500)  | train_loss=3.971 | val_loss=3.953
+epoch 001 (step 01550)
+epoch 001 (step 01600)
+epoch 001 (step 01650)  | train_loss=3.952 | val_loss=3.919
+epoch 001 (step 01700)
+epoch 001 (step 01750)
+epoch 001 (step 01800)  | train_loss=3.930 | val_loss=3.914
+epoch 001 (step 01850)
+epoch 001 (step 01900)
+epoch 001 (step 01950)  | train_loss=3.908 | val_loss=3.911
+epoch 001 (step 02000)
+epoch 001 (step 02050)
+epoch 001 (step 02100)  | train_loss=3.890 | val_loss=3.876
+epoch 001 (step 02150)
+epoch 001 (step 02200)
+epoch 001 (step 02250)  | train_loss=3.877 | val_loss=3.847
+epoch 001 (step 02300)
+epoch 001 (step 02350)
+epoch 001 (step 02400)  | train_loss=3.868 | val_loss=3.872
+epoch 001 (step 02450)
+epoch 001 (step 02500)
+epoch 001 (step 02550)  | train_loss=3.857 | val_loss=3.835
+epoch 001 (step 02600)
+epoch 001 (step 02650)
+epoch 001 (step 02700)  | train_loss=3.844 | val_loss=3.832
+Every effort moves you in the in the in the in the in the in the in the in the in the in the in the in the in
+epoch 002 (step 02750)
+epoch 002 (step 02800)
+epoch 002 (step 02850)  | train_loss=3.815 | val_loss=3.805
+epoch 002 (step 02900)
+epoch 002 (step 02950)
+epoch 002 (step 03000)  | train_loss=3.811 | val_loss=3.800
+epoch 002 (step 03050)
+epoch 002 (step 03100)
+epoch 002 (step 03150)  | train_loss=3.797 | val_loss=3.798
+epoch 002 (step 03200)
+epoch 002 (step 03250)
+epoch 002 (step 03300)  | train_loss=3.783 | val_loss=3.789
+epoch 002 (step 03350)
+epoch 002 (step 03400)
+epoch 002 (step 03450)  | train_loss=3.768 | val_loss=3.758
+epoch 002 (step 03500)
+epoch 002 (step 03550)
+epoch 002 (step 03600)  | train_loss=3.753 | val_loss=3.763
+epoch 002 (step 03650)
+epoch 002 (step 03700)
+epoch 002 (step 03750)  | train_loss=3.736 | val_loss=3.708
+epoch 002 (step 03800)
+epoch 002 (step 03850)
+epoch 002 (step 03900)  | train_loss=3.705 | val_loss=3.718
+epoch 002 (step 03950)
+epoch 002 (step 04000)
+epoch 002 (step 04050)  | train_loss=3.678 | val_loss=3.657
+epoch 002 (step 04100)
+epoch 002 (step 04150)
+epoch 002 (step 04200)  | train_loss=3.662 | val_loss=3.642
+epoch 002 (step 04250)
+epoch 002 (step 04300)
+epoch 002 (step 04350)  | train_loss=3.645 | val_loss=3.659
+epoch 002 (step 04400)
+epoch 002 (step 04450)
+epoch 002 (step 04500)  | train_loss=3.629 | val_loss=3.617
+epoch 002 (step 04550)
+epoch 002 (step 04600)
+epoch 002 (step 04650)  | train_loss=3.617 | val_loss=3.628
+epoch 002 (step 04700)
+epoch 002 (step 04750)
+epoch 002 (step 04800)  | train_loss=3.604 | val_loss=3.586
+epoch 002 (step 04850)
+epoch 002 (step 04900)
+epoch 002 (step 04950)  | train_loss=3.589 | val_loss=3.598
+epoch 002 (step 05000)
+epoch 002 (step 05050)
+epoch 002 (step 05100)  | train_loss=3.576 | val_loss=3.540
+epoch 002 (step 05150)
+epoch 002 (step 05200)
+epoch 002 (step 05250)  | train_loss=3.568 | val_loss=3.555
+epoch 002 (step 05300)
+epoch 002 (step 05350)
+epoch 002 (step 05400)  | train_loss=3.553 | val_loss=3.519
+epoch 002 (step 05450)
+Every effort moves you in the relationships in the relationshipshipsipsip between the relationship between the 
+epoch 003 (step 05500)
+epoch 003 (step 05550)  | train_loss=3.538 | val_loss=3.536
+epoch 003 (step 05600)
+epoch 003 (step 05650)
+epoch 003 (step 05700)  | train_loss=3.529 | val_loss=3.501
+epoch 003 (step 05750)
+epoch 003 (step 05800)
+epoch 003 (step 05850)  | train_loss=3.521 | val_loss=3.514
+epoch 003 (step 05900)
+epoch 003 (step 05950)
+epoch 003 (step 06000)  | train_loss=3.511 | val_loss=3.483
+epoch 003 (step 06050)
+epoch 003 (step 06100)
+epoch 003 (step 06150)  | train_loss=3.505 | val_loss=3.496
+epoch 003 (step 06200)
+epoch 003 (step 06250)
+epoch 003 (step 06300)  | train_loss=3.502 | val_loss=3.493
+epoch 003 (step 06350)
+epoch 003 (step 06400)
+epoch 003 (step 06450)  | train_loss=3.496 | val_loss=3.507
+epoch 003 (step 06500)
+epoch 003 (step 06550)
+epoch 003 (step 06600)  | train_loss=3.494 | val_loss=3.483
+epoch 003 (step 06650)
+epoch 003 (step 06700)
+epoch 003 (step 06750)  | train_loss=3.489 | val_loss=3.471
+epoch 003 (step 06800)
+epoch 003 (step 06850)
+epoch 003 (step 06900)  | train_loss=3.485 | val_loss=3.470
+epoch 003 (step 06950)
+epoch 003 (step 07000)
+epoch 003 (step 07050)  | train_loss=3.481 | val_loss=3.493
+epoch 003 (step 07100)
+epoch 003 (step 07150)
+epoch 003 (step 07200)  | train_loss=3.479 | val_loss=3.480
+epoch 003 (step 07250)
+epoch 003 (step 07300)
+epoch 003 (step 07350)  | train_loss=3.474 | val_loss=3.466
+epoch 003 (step 07400)
+epoch 003 (step 07450)
+epoch 003 (step 07500)  | train_loss=3.472 | val_loss=3.475
+epoch 003 (step 07550)
+epoch 003 (step 07600)
+epoch 003 (step 07650)  | train_loss=3.467 | val_loss=3.478
+epoch 003 (step 07700)
+epoch 003 (step 07750)
+epoch 003 (step 07800)  | train_loss=3.463 | val_loss=3.458
+epoch 003 (step 07850)
+epoch 003 (step 07900)
+epoch 003 (step 07950)  | train_loss=3.460 | val_loss=3.453
+epoch 003 (step 08000)
+epoch 003 (step 08050)
+epoch 003 (step 08100)  | train_loss=3.460 | val_loss=3.445
+epoch 003 (step 08150)
+epoch 003 (step 08200)
+Every effort moves you in the relationshipshipsip between the relationship between the relationship between the relationsh
+epoch 004 (step 08250)  | train_loss=3.460 | val_loss=3.414
+epoch 004 (step 08300)
+epoch 004 (step 08350)
+epoch 004 (step 08400)  | train_loss=3.460 | val_loss=3.434
+epoch 004 (step 08450)
+epoch 004 (step 08500)
+epoch 004 (step 08550)  | train_loss=3.459 | val_loss=3.464
+epoch 004 (step 08600)
+epoch 004 (step 08650)
+epoch 004 (step 08700)  | train_loss=3.458 | val_loss=3.456
+epoch 004 (step 08750)
+epoch 004 (step 08800)
+epoch 004 (step 08850)  | train_loss=3.458 | val_loss=3.480
+epoch 004 (step 08900)
+epoch 004 (step 08950)
+epoch 004 (step 09000)  | train_loss=3.458 | val_loss=3.469
+epoch 004 (step 09050)
+epoch 004 (step 09100)
+epoch 004 (step 09150)  | train_loss=3.457 | val_loss=3.460
+epoch 004 (step 09200)
+epoch 004 (step 09250)
+epoch 004 (step 09300)  | train_loss=3.457 | val_loss=3.449
+epoch 004 (step 09350)
+epoch 004 (step 09400)
+epoch 004 (step 09450)  | train_loss=3.456 | val_loss=3.452
+epoch 004 (step 09500)
+epoch 004 (step 09550)
+epoch 004 (step 09600)  | train_loss=3.455 | val_loss=3.467
+epoch 004 (step 09650)
+epoch 004 (step 09700)
+epoch 004 (step 09750)  | train_loss=3.455 | val_loss=3.443
+epoch 004 (step 09800)
+epoch 004 (step 09850)
+epoch 004 (step 09900)  | train_loss=3.455 | val_loss=3.430
+epoch 004 (step 09950)
+epoch 004 (step 10000)
+epoch 004 (step 10050)  | train_loss=3.453 | val_loss=3.435
+epoch 004 (step 10100)
+epoch 004 (step 10150)
+epoch 004 (step 10200)  | train_loss=3.454 | val_loss=3.459
+epoch 004 (step 10250)
+epoch 004 (step 10300)
+epoch 004 (step 10350)  | train_loss=3.454 | val_loss=3.461
+epoch 004 (step 10400)
+epoch 004 (step 10450)
+epoch 004 (step 10500)  | train_loss=3.456 | val_loss=3.464
+epoch 004 (step 10550)
+epoch 004 (step 10600)
+epoch 004 (step 10650)  | train_loss=3.456 | val_loss=3.433
+epoch 004 (step 10700)
+epoch 004 (step 10750)
+epoch 004 (step 10800)  | train_loss=3.457 | val_loss=3.436
+epoch 004 (step 10850)
+epoch 004 (step 10900)
+epoch 004 (step 10950)  | train_loss=3.458 | val_loss=3.436
+Every effort moves you in the relationshipshipship between the relationship between the levels of the levels of the le
+epoch 005 (step 11000)
+epoch 005 (step 11050)
+epoch 005 (step 11100)  | train_loss=3.459 | val_loss=3.429
+epoch 005 (step 11150)
+epoch 005 (step 11200)
+epoch 005 (step 11250)  | train_loss=3.461 | val_loss=3.445
+epoch 005 (step 11300)
+epoch 005 (step 11350)
+epoch 005 (step 11400)  | train_loss=3.461 | val_loss=3.444
+epoch 005 (step 11450)
+epoch 005 (step 11500)
+epoch 005 (step 11550)  | train_loss=3.463 | val_loss=3.466
+epoch 005 (step 11600)
+epoch 005 (step 11650)
+epoch 005 (step 11700)  | train_loss=3.464 | val_loss=3.447
+epoch 005 (step 11750)
+epoch 005 (step 11800)
+epoch 005 (step 11850)  | train_loss=3.465 | val_loss=3.439
+epoch 005 (step 11900)
+epoch 005 (step 11950)
+epoch 005 (step 12000)  | train_loss=3.466 | val_loss=3.471
+epoch 005 (step 12050)
+epoch 005 (step 12100)
+epoch 005 (step 12150)  | train_loss=3.467 | val_loss=3.464
+epoch 005 (step 12200)
+epoch 005 (step 12250)
+epoch 005 (step 12300)  | train_loss=3.468 | val_loss=3.447
+epoch 005 (step 12350)
+epoch 005 (step 12400)
+epoch 005 (step 12450)  | train_loss=3.471 | val_loss=3.478
+epoch 005 (step 12500)
+epoch 005 (step 12550)
+epoch 005 (step 12600)  | train_loss=3.472 | val_loss=3.492
+epoch 005 (step 12650)
+epoch 005 (step 12700)
+epoch 005 (step 12750)  | train_loss=3.475 | val_loss=3.475
+epoch 005 (step 12800)
+epoch 005 (step 12850)
+epoch 005 (step 12900)  | train_loss=3.478 | val_loss=3.470
+epoch 005 (step 12950)
+epoch 005 (step 13000)
+epoch 005 (step 13050)  | train_loss=3.479 | val_loss=3.483
+epoch 005 (step 13100)
+epoch 005 (step 13150)
+epoch 005 (step 13200)  | train_loss=3.482 | val_loss=3.432
+epoch 005 (step 13250)
+epoch 005 (step 13300)
+epoch 005 (step 13350)  | train_loss=3.484 | val_loss=3.461
+epoch 005 (step 13400)
+epoch 005 (step 13450)
+epoch 005 (step 13500)  | train_loss=3.487 | val_loss=3.458
+epoch 005 (step 13550)
+epoch 005 (step 13600)
+epoch 005 (step 13650)  | train_loss=3.490 | val_loss=3.476
+epoch 005 (step 13700)
+Every effort moves you in the relationships in the relationship between the relationship between the levels of the level of
+epoch 006 (step 13750)
+epoch 006 (step 13800)  | train_loss=3.491 | val_loss=3.478
+epoch 006 (step 13850)
+epoch 006 (step 13900)
+epoch 006 (step 13950)  | train_loss=3.493 | val_loss=3.478
+epoch 006 (step 14000)
+epoch 006 (step 14050)
+epoch 006 (step 14100)  | train_loss=3.496 | val_loss=3.481
+epoch 006 (step 14150)
+epoch 006 (step 14200)
+epoch 006 (step 14250)  | train_loss=3.499 | val_loss=3.536
+epoch 006 (step 14300)
+epoch 006 (step 14350)
+epoch 006 (step 14400)  | train_loss=3.502 | val_loss=3.489
+epoch 006 (step 14450)
+epoch 006 (step 14500)
+epoch 006 (step 14550)  | train_loss=3.506 | val_loss=3.482
+epoch 006 (step 14600)
+epoch 006 (step 14650)
+epoch 006 (step 14700)  | train_loss=3.510 | val_loss=3.504
+epoch 006 (step 14750)
+epoch 006 (step 14800)
+epoch 006 (step 14850)  | train_loss=3.513 | val_loss=3.496
+epoch 006 (step 14900)
+epoch 006 (step 14950)
+epoch 006 (step 15000)  | train_loss=3.517 | val_loss=3.500
+epoch 006 (step 15050)
+epoch 006 (step 15100)
+epoch 006 (step 15150)  | train_loss=3.521 | val_loss=3.491
+epoch 006 (step 15200)
+epoch 006 (step 15250)
+epoch 006 (step 15300)  | train_loss=3.525 | val_loss=3.523
+epoch 006 (step 15350)
+epoch 006 (step 15400)
+epoch 006 (step 15450)  | train_loss=3.529 | val_loss=3.519
+epoch 006 (step 15500)
+epoch 006 (step 15550)
+epoch 006 (step 15600)  | train_loss=3.533 | val_loss=3.502
+epoch 006 (step 15650)
+epoch 006 (step 15700)
+epoch 006 (step 15750)  | train_loss=3.537 | val_loss=3.508
+epoch 006 (step 15800)
+epoch 006 (step 15850)
+epoch 006 (step 15900)  | train_loss=3.542 | val_loss=3.552
+epoch 006 (step 15950)
+epoch 006 (step 16000)
+epoch 006 (step 16050)  | train_loss=3.546 | val_loss=3.525
+epoch 006 (step 16100)
+epoch 006 (step 16150)
+epoch 006 (step 16200)  | train_loss=3.550 | val_loss=3.546
+epoch 006 (step 16250)
+epoch 006 (step 16300)
+epoch 006 (step 16350)  | train_loss=3.555 | val_loss=3.532
+epoch 006 (step 16400)
+epoch 006 (step 16450)
+Every effort moves you in the relationships. The results in the results in the results of the in the 
+epoch 007 (step 16500)  | train_loss=3.563 | val_loss=3.557
+epoch 007 (step 16550)
+epoch 007 (step 16600)
+epoch 007 (step 16650)  | train_loss=3.569 | val_loss=3.539
+epoch 007 (step 16700)
+epoch 007 (step 16750)
+epoch 007 (step 16800)  | train_loss=3.575 | val_loss=3.588
+epoch 007 (step 16850)
+epoch 007 (step 16900)
+epoch 007 (step 16950)  | train_loss=3.580 | val_loss=3.560
+epoch 007 (step 17000)
+epoch 007 (step 17050)
+epoch 007 (step 17100)  | train_loss=3.586 | val_loss=3.554
+epoch 007 (step 17150)
+epoch 007 (step 17200)
+epoch 007 (step 17250)  | train_loss=3.592 | val_loss=3.594
+epoch 007 (step 17300)
+epoch 007 (step 17350)
+epoch 007 (step 17400)  | train_loss=3.598 | val_loss=3.616
+epoch 007 (step 17450)
+epoch 007 (step 17500)
+epoch 007 (step 17550)  | train_loss=3.604 | val_loss=3.603
+epoch 007 (step 17600)
+epoch 007 (step 17650)
+epoch 007 (step 17700)  | train_loss=3.610 | val_loss=3.607
+epoch 007 (step 17750)
+epoch 007 (step 17800)
+epoch 007 (step 17850)  | train_loss=3.616 | val_loss=3.609
+epoch 007 (step 17900)
+epoch 007 (step 17950)
+epoch 007 (step 18000)  | train_loss=3.623 | val_loss=3.601
+epoch 007 (step 18050)
+epoch 007 (step 18100)
+epoch 007 (step 18150)  | train_loss=3.629 | val_loss=3.625
+epoch 007 (step 18200)
+epoch 007 (step 18250)
+epoch 007 (step 18300)  | train_loss=3.636 | val_loss=3.637
+epoch 007 (step 18350)
+epoch 007 (step 18400)
+epoch 007 (step 18450)  | train_loss=3.644 | val_loss=3.630
+epoch 007 (step 18500)
+epoch 007 (step 18550)
+epoch 007 (step 18600)  | train_loss=3.652 | val_loss=3.641
+epoch 007 (step 18650)
+epoch 007 (step 18700)
+epoch 007 (step 18750)  | train_loss=3.660 | val_loss=3.655
+epoch 007 (step 18800)
+epoch 007 (step 18850)
+epoch 007 (step 18900)  | train_loss=3.668 | val_loss=3.658
+epoch 007 (step 18950)
+epoch 007 (step 19000)
+epoch 007 (step 19050)  | train_loss=3.677 | val_loss=3.647
+epoch 007 (step 19100)
+epoch 007 (step 19150)
+epoch 007 (step 19200)  | train_loss=3.686 | val_loss=3.712
+Every effort moves you in the in the development of the in the in the development of the in the development of the
+epoch 008 (step 19250)
+epoch 008 (step 19300)
+epoch 008 (step 19350)  | train_loss=3.694 | val_loss=3.671
+epoch 008 (step 19400)
+epoch 008 (step 19450)
+epoch 008 (step 19500)  | train_loss=3.704 | val_loss=3.696
+epoch 008 (step 19550)
+epoch 008 (step 19600)
+epoch 008 (step 19650)  | train_loss=3.712 | val_loss=3.707
+epoch 008 (step 19700)
+epoch 008 (step 19750)
+epoch 008 (step 19800)  | train_loss=3.722 | val_loss=3.701
+epoch 008 (step 19850)
+epoch 008 (step 19900)
+epoch 008 (step 19950)  | train_loss=3.731 | val_loss=3.741
+epoch 008 (step 20000)
+epoch 008 (step 20050)
+epoch 008 (step 20100)  | train_loss=3.741 | val_loss=3.720
+epoch 008 (step 20150)
+epoch 008 (step 20200)
+epoch 008 (step 20250)  | train_loss=3.751 | val_loss=3.758
+epoch 008 (step 20300)
+epoch 008 (step 20350)
+epoch 008 (step 20400)  | train_loss=3.762 | val_loss=3.765
+epoch 008 (step 20450)
+epoch 008 (step 20500)
+epoch 008 (step 20550)  | train_loss=3.774 | val_loss=3.762
+epoch 008 (step 20600)
+epoch 008 (step 20650)
+epoch 008 (step 20700)  | train_loss=3.786 | val_loss=3.778
+epoch 008 (step 20750)
+epoch 008 (step 20800)
+epoch 008 (step 20850)  | train_loss=3.797 | val_loss=3.772
+epoch 008 (step 20900)
+epoch 008 (step 20950)
+epoch 008 (step 21000)  | train_loss=3.810 | val_loss=3.778
+epoch 008 (step 21050)
+epoch 008 (step 21100)
+epoch 008 (step 21150)  | train_loss=3.822 | val_loss=3.837
+epoch 008 (step 21200)
+epoch 008 (step 21250)
+epoch 008 (step 21300)  | train_loss=3.834 | val_loss=3.828
+epoch 008 (step 21350)
+epoch 008 (step 21400)
+epoch 008 (step 21450)  | train_loss=3.847 | val_loss=3.830
+epoch 008 (step 21500)
+epoch 008 (step 21550)
+epoch 008 (step 21600)  | train_loss=3.860 | val_loss=3.844
+epoch 008 (step 21650)
+epoch 008 (step 21700)
+epoch 008 (step 21750)  | train_loss=3.873 | val_loss=3.855
+epoch 008 (step 21800)
+epoch 008 (step 21850)
+epoch 008 (step 21900)  | train_loss=3.886 | val_loss=3.882
+epoch 008 (step 21950)
+Every effort moves you in the in the in the in the in the in the in the in the in the in the in the in the in
+epoch 009 (step 22000)
+epoch 009 (step 22050)  | train_loss=3.902 | val_loss=3.879
+epoch 009 (step 22100)
+epoch 009 (step 22150)
+epoch 009 (step 22200)  | train_loss=3.916 | val_loss=3.901
+epoch 009 (step 22250)
+epoch 009 (step 22300)
+epoch 009 (step 22350)  | train_loss=3.930 | val_loss=3.917
+epoch 009 (step 22400)
+epoch 009 (step 22450)
+epoch 009 (step 22500)  | train_loss=3.946 | val_loss=3.937
+epoch 009 (step 22550)
+epoch 009 (step 22600)
+epoch 009 (step 22650)  | train_loss=3.961 | val_loss=3.945
+epoch 009 (step 22700)
+epoch 009 (step 22750)
+epoch 009 (step 22800)  | train_loss=3.977 | val_loss=3.948
+epoch 009 (step 22850)
+epoch 009 (step 22900)
+epoch 009 (step 22950)  | train_loss=3.993 | val_loss=3.967
+epoch 009 (step 23000)
+epoch 009 (step 23050)
+epoch 009 (step 23100)  | train_loss=4.009 | val_loss=4.012
+epoch 009 (step 23150)
+epoch 009 (step 23200)
+epoch 009 (step 23250)  | train_loss=4.025 | val_loss=4.020
+epoch 009 (step 23300)
+epoch 009 (step 23350)
+epoch 009 (step 23400)  | train_loss=4.042 | val_loss=4.021
+epoch 009 (step 23450)
+epoch 009 (step 23500)
+epoch 009 (step 23550)  | train_loss=4.058 | val_loss=4.034
+epoch 009 (step 23600)
+epoch 009 (step 23650)
+epoch 009 (step 23700)  | train_loss=4.075 | val_loss=4.065
+epoch 009 (step 23750)
+epoch 009 (step 23800)
+epoch 009 (step 23850)  | train_loss=4.092 | val_loss=4.073
+epoch 009 (step 23900)
+epoch 009 (step 23950)
+epoch 009 (step 24000)  | train_loss=4.108 | val_loss=4.073
+epoch 009 (step 24050)
+epoch 009 (step 24100)
+epoch 009 (step 24150)  | train_loss=4.124 | val_loss=4.107
+epoch 009 (step 24200)
+epoch 009 (step 24250)
+epoch 009 (step 24300)  | train_loss=4.141 | val_loss=4.119
+epoch 009 (step 24350)
+epoch 009 (step 24400)
+epoch 009 (step 24450)  | train_loss=4.158 | val_loss=4.135
+epoch 009 (step 24500)
+epoch 009 (step 24550)
+epoch 009 (step 24600)  | train_loss=4.176 | val_loss=4.147
+epoch 009 (step 24650)
+epoch 009 (step 24700)
+Every effort moves you in the in the in the in the in the in the in the in the in the in the in the in the in
+epoch 010 (step 24750)  | train_loss=4.197 | val_loss=4.215
+epoch 010 (step 24800)
+epoch 010 (step 24850)
+epoch 010 (step 24900)  | train_loss=4.215 | val_loss=4.174
+epoch 010 (step 24950)
+epoch 010 (step 25000)
+epoch 010 (step 25050)  | train_loss=4.234 | val_loss=4.222
+epoch 010 (step 25100)
+epoch 010 (step 25150)
+epoch 010 (step 25200)  | train_loss=4.253 | val_loss=4.243
+epoch 010 (step 25250)
+epoch 010 (step 25300)
+epoch 010 (step 25350)  | train_loss=4.272 | val_loss=4.264
+epoch 010 (step 25400)
+epoch 010 (step 25450)
+epoch 010 (step 25500)  | train_loss=4.291 | val_loss=4.276
+epoch 010 (step 25550)
+epoch 010 (step 25600)
+epoch 010 (step 25650)  | train_loss=4.311 | val_loss=4.293
+epoch 010 (step 25700)
+epoch 010 (step 25750)
+epoch 010 (step 25800)  | train_loss=4.330 | val_loss=4.302
+epoch 010 (step 25850)
+epoch 010 (step 25900)
+epoch 010 (step 25950)  | train_loss=4.349 | val_loss=4.330
+epoch 010 (step 26000)
+epoch 010 (step 26050)
+epoch 010 (step 26100)  | train_loss=4.368 | val_loss=4.353
+epoch 010 (step 26150)
+epoch 010 (step 26200)
+epoch 010 (step 26250)  | train_loss=4.386 | val_loss=4.358
+epoch 010 (step 26300)
+epoch 010 (step 26350)
+epoch 010 (step 26400)  | train_loss=4.405 | val_loss=4.396
+epoch 010 (step 26450)
+epoch 010 (step 26500)
+epoch 010 (step 26550)  | train_loss=4.424 | val_loss=4.403
+epoch 010 (step 26600)
+epoch 010 (step 26650)
+epoch 010 (step 26700)  | train_loss=4.444 | val_loss=4.432
+epoch 010 (step 26750)
+epoch 010 (step 26800)
+epoch 010 (step 26850)  | train_loss=4.464 | val_loss=4.451
+epoch 010 (step 26900)
+epoch 010 (step 26950)
+epoch 010 (step 27000)  | train_loss=4.484 | val_loss=4.464
+epoch 010 (step 27050)
+epoch 010 (step 27100)
+epoch 010 (step 27150)  | train_loss=4.505 | val_loss=4.483
+epoch 010 (step 27200)
+epoch 010 (step 27250)
+epoch 010 (step 27300)  | train_loss=4.526 | val_loss=4.510
+epoch 010 (step 27350)
+epoch 010 (step 27400)
+epoch 010 (step 27450)  | train_loss=4.547 | val_loss=4.521
+Every effort moves you in the in the in the in the in the in the in the in the in the in the in the in the in
+/usr/local/lib64/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
