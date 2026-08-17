@@ -1,4 +1,5 @@
 .env
-data/
 __pycache__/
+data/
 gpt2/
+hf/

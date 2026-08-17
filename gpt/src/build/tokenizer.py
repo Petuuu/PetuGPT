@@ -156,7 +156,7 @@ class BPETokenizer:
         if new_vocab:
             config = create_vocab(data, vocab_size)
         else:
-            with open("data/tokenizer_config.txt", "r", encoding="utf-8") as f:
+            with open(C.TOKENIZER_CONFIG, "r", encoding="utf-8") as f:
                 config = ast.literal_eval(f.read())
 
         self.token_to_id, self.id_to_token, self.vocab, self.merges = config

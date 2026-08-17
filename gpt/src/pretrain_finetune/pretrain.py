@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from src.build.tokenizer import BPETokenizer
 from src.build.model import GPTModel
-from src.utils.dataloader import create_dataloader
+from src.utils.dataloaders import create_dataloader
 from src.utils.data import load_pretraining_data
 
 

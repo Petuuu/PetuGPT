@@ -127,6 +127,7 @@ if __name__ == "__main__":
     checkpoint = torch.load(C.OPENAI_WEIGHTS_MODEL_FILE, map_location=C.DEVICE)
     gpt = GPTModel()
     gpt.load_state_dict(checkpoint["model_state_dict"])
+    gpt.eval()
 
     tokenizer = tiktoken.get_encoding("gpt2")
     tokens = gpt.generate(

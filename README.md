@@ -11,12 +11,12 @@ You can run the model either locally or using the web interface at https://examp
 
 #### Local use
 
-If you don't already have *PyTorch*, install it with `pip install torch`.
+If you don't already have *PyTorch* and *tiktoken*, install it with `pip install torch tiktoken`.
 
 Once you have *PyTorch* installed, navigate to the 'gpt' directory. Finally, run the model with `py -m run {FLAGS}`.
 
-By default, the locally pre-trained model is used. You can use the following flags:
-- -o/--openai: uses OpenAI's weights
+By default, the model loaded with OpenAI weights is used. You can use the following flags:
+- -l/--local-pretrain: uses locally pre-trained model
 - -c/--classification: spam classification (fine-tuned)
 - -i/--instruction: follows user given instruction (fine-tuned)
 
@@ -39,9 +39,9 @@ Multi-head attention  | 4 × embedding dim ^ 2 + embedding dim (Q, K, V, output)
 Feed-forward          | 8 × embedding dim ^ 2 + 5 × embedding dim (bias)              | 8,393,728
 Transformer blocks    | no. layers × (multi-head attention + feed-forward + \* )      | 302,235,648
 Final normalization   | 2 × embedding dim                                             | 2,048
-Output                | embedding dim × vocab size                                    | 46,180,352 (no weight tying with own)
+Output                | embedding dim × vocab size / 2 (spam classification 0/1)      | 46,180,352 (no weight tying with own) / 2
 ||
-**Total**             | embeddings + transformer blocks + final norm (+ output layer) | 354,749,440 (OpenAI) - 394,860,544
+**Total**             | embeddings + transformer blocks + final norm (+ output layer) | 354,749,440(+2) (OpenAI) - 394,860,544(-46,180,350)
 
 \* 2 × normalization layers = 4 × embedding dim = 4,096
 

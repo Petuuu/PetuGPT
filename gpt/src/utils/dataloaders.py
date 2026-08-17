@@ -1,4 +1,6 @@
 import config as C
+import pandas as pd
+import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.distributed import DistributedSampler
 
@@ -16,6 +18,41 @@ class GPTDataset(Dataset):
 
     def __getitem__(self, idx):
         return self.input_ids[idx], self.target_ids[idx]
+
+
+class SpamDataset(Dataset):
+    def __init__(self, csv_file, tokenizer, max_length=None, pad_token_id=50256):
+        self.data = pd.read_csv(csv_file)
+        self.encoded_texts = [tokenizer.encode(t) for t in self.data["Text"]]
+
+        if max_length is None:
+            self.max_length = self._longest_encoded_length()
+        else:
+            self.max_length = max_length
+            self.encoded_texts = [t[: self.max_length] for t in self.encoded_texts]
+
+        self.encoded_texts = [
+            t + [pad_token_id] * (self.max_length - len(t)) for t in self.encoded_texts
+        ]
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        encoded = self.encoded_texts[idx]
+        label = self.data.iloc[idx]["Label"]
+        return (
+            torch.tensor(encoded, dtype=torch.long),
+            torch.tensor(label, dtype=torch.long),
+        )
+
+    def _longest_encoded_length(self):
+        max_length = 0
+        for t in self.encoded_texts:
+            t_length = len(t)
+            if t_length > max_length:
+                max_length = t_length
+        return max_length
 
 
 def create_dataloader(
