@@ -1,5 +1,5 @@
-import os
-import json
+import os, sys
+import json, argparse
 import torch
 
 settings = {
@@ -10,9 +10,14 @@ settings = {
     "n_layer": 24,
 }
 openai_dir = "gpt2/355M/"
-# if os.path.isdir(openai_dir):
-#    with open(openai_dir + "hparams.json", "r", encoding="utf-8") as f:
-#        settings = json.load(f)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-o", "--openai", action="store_true")
+openai = parser.parse_args(sys.argv[1:]).openai
+
+if os.path.isdir(openai_dir) and openai:
+    with open(openai_dir + "hparams.json", "r", encoding="utf-8") as f:
+        settings = json.load(f)
 
 VOCAB_SIZE = settings["n_vocab"]
 CONTEXT_LEN = settings["n_ctx"]

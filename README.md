@@ -5,6 +5,22 @@
 A GPT-2 model implemented, pre-trained and fine-tuned using *PyTorch*.
 
 
+### Usage
+
+You can run the model either locally or using the web interface at https://example.com
+
+#### Local use
+
+If you don't already have *PyTorch*, install it with `pip install torch`.
+
+Once you have *PyTorch* installed, navigate to the 'gpt' directory. Finally, run the model with `py -m run {FLAGS}`.
+
+By default, the locally pre-trained model is used. You can use the following flags:
+- -o/--openai: uses OpenAI's weights
+- -c/--classification: spam classification (fine-tuned)
+- -i/--instruction: follows user given instruction (fine-tuned)
+
+
 ### Configuration and parameters
 .                   | Count
 ---                 | ---
@@ -17,8 +33,8 @@ Dropout rate        | 0.1
 
 Layer                 | Origin                                                        | Params
 ---                   | ---                                                           | ---
-Token embeddings      | vocab size × embedding dim                                    | 46,180,352 - 51,463,168
-Positional embeddings | context length × embedding dim                                | 262,144 - 1,048,576
+Token embeddings      | vocab size × embedding dim                                    | 46,180,352 - 51,463,168 (OpenAI)
+Positional embeddings | context length × embedding dim                                | 262,144 - 1,048,576 (OpenAI)
 Multi-head attention  | 4 × embedding dim ^ 2 + embedding dim (Q, K, V, output)       | 4,195,328
 Feed-forward          | 8 × embedding dim ^ 2 + 5 × embedding dim (bias)              | 8,393,728
 Transformer blocks    | no. layers × (multi-head attention + feed-forward + \* )      | 302,235,648
@@ -30,14 +46,15 @@ Output                | embedding dim × vocab size                             
 \* 2 × normalization layers = 4 × embedding dim = 4,096
 
 ### Datasets
-allenai/peS20 from Hugging Face: https://huggingface.co/datasets/allenai/peS2o
+For pretraining: allenai/peS20 from Hugging Face (https://huggingface.co/datasets/allenai/peS2o)
 - ~30 MB used for creating BPE vocabulary
 - ~450 MB used for pre-training
 - ~50 MB used for validation
 
+For classification fine-tuning: https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip
+
+For instruction fine-tuning: https://github.com/rasbt/LLMs-from-scratch/blob/main/ch07/01_main-chapter-code/instruction-data.json
+
 ### Tokenizer
 - Built from scratch: Byte-Pair Encoding (BPE)
 - With preloaded OpenAI weights: tiktoken gpt2
-
-### NOTE
-- Scripts written for Windows -> file paths need to be modified if run on different OS. Notebook, however, written for Unix

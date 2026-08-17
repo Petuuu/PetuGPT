@@ -9,7 +9,7 @@ from src.build.model import GPTModel
 
 def text_to_tokens(text, tokenizer):
     encoded = tokenizer.encode(text)
-    encoded_tensor = torch.tensor(encoded).unsqueeze(0)
+    encoded_tensor = torch.as_tensor(encoded, dtype=torch.long).unsqueeze(0)
     return encoded_tensor
 
 
@@ -130,7 +130,7 @@ if __name__ == "__main__":
 
     tokenizer = tiktoken.get_encoding("gpt2")
     tokens = gpt.generate(
-        idx=text_to_tokens("Every effort moves you", tokenizer).to(C.DEVICE),
+        idx=text_to_tokens("The capital of france is", tokenizer).to(C.DEVICE),
         max_tokens=25,
         top_k=50,
         temp=1.5,
