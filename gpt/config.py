@@ -1,23 +1,27 @@
-import os, sys
-import json, argparse
+import sys
+import argparse
 import torch
-
-settings = {
-    "n_vocab": 45098,
-    "n_ctx": 256,
-    "n_embd": 1024,
-    "n_head": 16,
-    "n_layer": 24,
-}
-openai_dir = "gpt2/355M/"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--local-pretrain", action="store_true")
 local = parser.parse_args(sys.argv[1:]).local_pretrain
 
-if os.path.isdir(openai_dir) and not local:
-    with open(openai_dir + "hparams.json", "r", encoding="utf-8") as f:
-        settings = json.load(f)
+if local:
+    settings = {
+        "n_vocab": 45098,
+        "n_ctx": 256,
+        "n_embd": 1024,
+        "n_head": 16,
+        "n_layer": 24,
+    }
+else:
+    settings = {
+        "n_vocab": 50257,
+        "n_ctx": 1024,
+        "n_embd": 1024,
+        "n_head": 16,
+        "n_layer": 24,
+    }
 
 VOCAB_SIZE = settings["n_vocab"]
 CONTEXT_LEN = settings["n_ctx"]

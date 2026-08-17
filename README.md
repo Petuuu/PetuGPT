@@ -11,9 +11,10 @@ You can run the model either locally or using the web interface at https://examp
 
 #### Local use
 
-If you don't already have *PyTorch* and *tiktoken*, install it with `pip install torch tiktoken`.
+If you don't already have *PyTorch* and *tiktoken*, install it with `pip install torch tiktoken`. You also need the model
+files from https://huggingface.co/Petuu/PetuGPT. Create a directory `data` in the project root and place the files there.
 
-Once you have *PyTorch* installed, navigate to the 'gpt' directory. Finally, run the model with `py -m run {FLAGS}`.
+Once you have the dependencies installed, navigate to the 'gpt' directory. Finally, run the model with `py -m run {FLAGS}`.
 
 By default, the model loaded with OpenAI weights is used. You can use the following flags:
 - -l/--local-pretrain: uses locally pre-trained model

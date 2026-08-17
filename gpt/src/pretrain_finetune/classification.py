@@ -1,6 +1,7 @@
 import config as C
 import tiktoken
 import torch
+import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from src.build.model import GPTModel
 from src.utils.dataloaders import SpamDataset
@@ -39,6 +40,32 @@ def calc_accuracy_loader(data_loader, model, device=C.DEVICE, n_batches=None):
             break
 
     return correct_preds / n_examples
+
+
+def calc_loss_batch(input_batch, target_batch, model, device=C.DEVICE):
+    input_batch, target_batch = input_batch.to(device), target_batch.to(device)
+    logits = model(input_batch)[:, -1, :]
+    return F.cross_entropy(logits, target_batch)  # loss
+
+
+def calc_loss_loader(data_loader, model, device=C.DEVICE, n_batches=None):
+    total_loss = 0.0
+    if len(data_loader) == 0:
+        return float("nan")
+    elif n_batches is None:
+        n_batches = len(data_loader)
+    else:
+        n_batches = min(n_batches, len(data_loader))
+
+    for i, (input_batch, target_batch) in enumerate(data_loader):
+        if i < n_batches:
+            with torch.amp.autocast("cuda", dtype=torch.float16):
+                loss = calc_loss_batch(input_batch, target_batch, model, device)
+            total_loss += loss.item()
+        else:
+            break
+
+    return total_loss / n_batches
 
 
 if __name__ == "__main__":

@@ -29,33 +29,31 @@ def calc_loss_batch(input_batch, target_batch, model, device=C.DEVICE):
     return F.cross_entropy(logits.flatten(0, 1), target_batch.flatten())  # loss
 
 
-def calc_loss_loader(data_loader, model, device=C.DEVICE, num_batches=None):
+def calc_loss_loader(data_loader, model, device=C.DEVICE, n_batches=None):
     total_loss = 0.0
     if len(data_loader) == 0:
         return float("nan")
-    elif num_batches is None:
-        num_batches = len(data_loader)
+    elif n_batches is None:
+        n_batches = len(data_loader)
     else:
-        num_batches = min(num_batches, len(data_loader))
+        n_batches = min(n_batches, len(data_loader))
 
     for i, (input_batch, target_batch) in enumerate(data_loader):
-        if i < num_batches:
+        if i < n_batches:
             with torch.amp.autocast("cuda", dtype=torch.float16):
                 loss = calc_loss_batch(input_batch, target_batch, model, device)
             total_loss += loss.item()
         else:
             break
 
-    return total_loss / num_batches
+    return total_loss / n_batches
 
 
 def evaluate_model(model, train_loader, val_loader, eval_iter, device=C.DEVICE):
     model.eval()
     with torch.no_grad():
-        train_loss = calc_loss_loader(
-            train_loader, model, device, num_batches=eval_iter
-        )
-        val_loss = calc_loss_loader(val_loader, model, device, num_batches=eval_iter)
+        train_loss = calc_loss_loader(train_loader, model, device, n_batches=eval_iter)
+        val_loss = calc_loss_loader(val_loader, model, device, n_batches=eval_iter)
     model.train()
     return train_loss, val_loss
 
@@ -77,7 +75,7 @@ def train_model(
     train_loader,
     val_loader,
     optimizer,
-    num_epochs,
+    n_epochs,
     eval_freq,
     eval_iter,
     start_context,
@@ -90,7 +88,7 @@ def train_model(
     tokens_seen, global_step = 0, -1
     rank = dist.get_rank()
 
-    for epoch in range(num_epochs):
+    for epoch in range(n_epochs):
         if isinstance(train_loader.sampler, DistributedSampler):
             train_loader.sampler.set_epoch(epoch)
 
@@ -177,14 +175,14 @@ if __name__ == "__main__":
         train_data,
         tokenizer=tokenizer,
         batch_size=C.BATCH_SIZE,
-        num_workers=C.CORES,
+        n_workers=C.CORES,
         distributed=True,
     )
     val_loader = create_dataloader(
         val_data,
         tokenizer=tokenizer,
         batch_size=C.BATCH_SIZE,
-        num_workers=C.CORES,
+        n_workers=C.CORES,
         distributed=False,
     )
     if rank == 0:
@@ -196,7 +194,7 @@ if __name__ == "__main__":
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=0.0002, betas=(0.9, 0.95), weight_decay=0.1
     )
-    num_epochs = 10
+    n_epochs = 10
     scaler = torch.amp.GradScaler("cuda")
     train_losses, val_losses, track_tokens_seen = train_model(
         model=model,
@@ -204,7 +202,7 @@ if __name__ == "__main__":
         train_loader=train_loader,
         val_loader=val_loader,
         optimizer=optimizer,
-        num_epochs=num_epochs,
+        n_epochs=n_epochs,
         eval_freq=150,
         eval_iter=10,
         start_context="Every effort moves you",
@@ -212,7 +210,7 @@ if __name__ == "__main__":
     )
 
     if rank == 0:
-        plot_losses(num_epochs, train_losses, val_losses, track_tokens_seen)
+        plot_losses(n_epochs, train_losses, val_losses, track_tokens_seen)
         torch.save(
             {
                 "model_state_dict": model.module.state_dict(),

@@ -63,7 +63,7 @@ def create_dataloader(
     stride=C.CONTEXT_LEN,
     shuffle=True,
     drop_last=True,
-    num_workers=C.CORES,
+    n_workers=C.CORES,
     distributed=False,
 ):
     dataset = GPTDataset(txt, tokenizer, max_length, stride)
@@ -75,7 +75,7 @@ def create_dataloader(
         shuffle=(shuffle and sampler is None),
         sampler=sampler,
         drop_last=drop_last,
-        num_workers=num_workers,
+        num_workers=n_workers,
         pin_memory=True,
     )
     return dataloader
