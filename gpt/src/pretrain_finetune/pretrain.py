@@ -155,6 +155,7 @@ def plot_losses(epochs, train_losses, val_losses, tokens_seen):
     ax2.set_xlabel("Tokens seen")
 
     fig.tight_layout()
+    plt.savefig("pretrain-loss.png")
     plt.show()
 
 
