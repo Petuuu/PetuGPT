@@ -1,0 +1,50 @@
+----------------------------------------------------------------------------------
+PyTorch version 2.10.0, machine learning library for Python.
+
+For more help see: https://docs.csc.fi/apps/pytorch/
+----------------------------------------------------------------------------------
+Model initialized
+BEFORE FINE-TUNING
+
+Training accuracy: 46.25%
+Validation accuracy: 63.75%
+Test accuracy: 51.25%
+Training loss: 1.352
+Validation loss: 0.839
+Test loss: 1.214
+epoch 001 (step 00000)  | train_loss=1.616 | val_loss=0.798
+epoch 001 (step 00050)  | train_loss=0.646 | val_loss=0.613
+epoch 001 (step 00100)  | train_loss=0.521 | val_loss=0.566
+train_acc=82.50 | val_acc=85.00
+epoch 002 (step 00150)  | train_loss=0.486 | val_loss=0.601
+epoch 002 (step 00200)  | train_loss=0.410 | val_loss=0.506
+epoch 002 (step 00250)  | train_loss=0.399 | val_loss=0.637
+train_acc=75.00 | val_acc=82.50
+epoch 003 (step 00300)  | train_loss=0.388 | val_loss=0.447
+epoch 003 (step 00350)  | train_loss=0.185 | val_loss=0.417
+train_acc=97.50 | val_acc=87.50
+epoch 004 (step 00400)  | train_loss=0.372 | val_loss=0.356
+epoch 004 (step 00450)  | train_loss=0.093 | val_loss=0.349
+epoch 004 (step 00500)  | train_loss=0.108 | val_loss=0.239
+train_acc=97.50 | val_acc=92.50
+epoch 005 (step 00550)  | train_loss=0.147 | val_loss=0.228
+epoch 005 (step 00600)  | train_loss=0.031 | val_loss=0.185
+train_acc=100.00 | val_acc=92.50
+
+AFTER FINE-TUNING
+
+Training accuracy: 96.25%
+Validation accuracy: 93.75%
+Test accuracy: 93.75%
+Training loss: 0.024
+Validation loss: 0.221
+Test loss: 0.221
+
+TESTING
+
+
+Text: Hey, just wanted to check if we're still on for dinner tonigh? Let me know!
+Classification: not spam
+
+Text: You are a winner you have been specially selected to receive $1000 cash or a $2000 award
+Classification: not spam

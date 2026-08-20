@@ -69,7 +69,7 @@ def generate_and_print_sample(model, tokenizer, start_context, device, temp, top
     model.train()
 
 
-def train_model(
+def train_model_parallel(
     model,
     tokenizer,
     train_loader,
@@ -118,7 +118,7 @@ def train_model(
                         f"val_loss={val_loss:.3f}"
                     )
 
-            if global_step % 50 == 0 and global_step % eval_freq != 0 and rank:
+            if global_step % 50 == 0 and global_step % eval_freq != 0 and rank == 0:
                 print(f"epoch {epoch + 1:03d} (step {global_step:05d})")
 
         if rank == 0:
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     )
     n_epochs = 10
     scaler = torch.amp.GradScaler("cuda")
-    train_losses, val_losses, track_tokens_seen = train_model(
+    train_losses, val_losses, track_tokens_seen = train_model_parallel(
         model=model,
         tokenizer=tokenizer,
         train_loader=train_loader,

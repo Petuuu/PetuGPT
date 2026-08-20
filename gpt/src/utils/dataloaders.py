@@ -1,7 +1,8 @@
 import config as C
 import pandas as pd
+import json
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, get_worker_info
 from torch.utils.data.distributed import DistributedSampler
 
 
@@ -55,6 +56,49 @@ class SpamDataset(Dataset):
         return max_length
 
 
+def format_input(entry):
+    return (
+        f"Below is an instruction that describes a task. "
+        f"Write a response that appropriately completes the request."
+        f"\n\n### Instruction:\n{entry['instruction']}"
+        f"\n\n### Input:\n{entry['input'] if entry['input'] else ''}"
+    )
+
+
+class InstructionDataset(Dataset):
+    def __init__(
+        self,
+        json_file,
+        tokenizer,
+        train_ratio=0.85,
+        test_ratio=0.1,
+    ):
+
+        with open(json_file, "r") as f:
+            self.data = json.load(f)
+        self.encoded_instructions = [
+            tokenizer.encode(
+                format_input(entry) + f"\n\n### Response:\n{entry['output']}"
+            )
+            for entry in self.data
+        ]
+
+        train_portion = int(len(self.data) * train_ratio)
+        test_portion = int(len(self.data) * test_ratio)
+
+        self.train_data = self.encoded_instructions[:train_portion]
+        self.test_data = self.encoded_instructions[
+            train_portion : train_portion + test_portion
+        ]
+        self.val_data = self.encoded_instructions[train_portion + test_portion :]
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.encoded_instructions[idx]
+
+
 def create_dataloader(
     txt,
     tokenizer,
@@ -81,19 +125,48 @@ def create_dataloader(
     return dataloader
 
 
-if __name__ == "__main__":
-    from src.build.tokenizer import BPETokenizer, TOKENIZER_DATA
+def instruction_collate(
+    batch, pad_token_id=50256, ignore_index=-100, max_length=None, device="cpu"
+):
 
-    tokenizeri = BPETokenizer()
-    dataloader = create_dataloader(
-        "<|endoftext|>".join(TOKENIZER_DATA[:5]),
-        tokenizer=tokenizeri,
-        batch_size=8,
-        max_length=4,
-        stride=4,
-        shuffle=False,
-    )
-    data_iter = iter(dataloader)
-    inputs, targets = next(data_iter)
-    print("Inputs:\n", inputs)
-    print("\nTargets:\n", targets)
+    batch_max_len = max(len(i) + 1 for i in batch)
+    inputs_lst, targets_lst = [], []
+
+    for i in batch:
+        newi = i.copy()
+        newi += [pad_token_id]
+        padded = newi + [pad_token_id] * (batch_max_len - len(newi))
+
+        inputs = torch.as_tensor(padded[:-1])
+        targets = torch.tensor(padded[1:])
+        mask = targets == pad_token_id
+        indices = torch.nonzero(mask).squeeze()
+
+        if indices.numel() > 1:
+            targets[indices[1:]] = ignore_index
+        if max_length is not None:
+            inputs = inputs[:max_length]
+            targets = targets[:max_length]
+
+        inputs_lst.append(inputs)
+        targets_lst.append(targets)
+
+    inputs_tensor = torch.stack(inputs_lst)
+    targets_tensor = torch.stack(targets_lst)
+
+    worker_info = get_worker_info()
+    if worker_info is not None and torch.device(device).type == "cuda":
+        return inputs_tensor, targets_tensor
+
+    inputs_tensor = inputs_tensor.to(device)
+    targets_tensor = targets_tensor.to(device)
+    return inputs_tensor, targets_tensor
+
+
+if __name__ == "__main__":
+    import tiktoken
+
+    tokenizer = tiktoken.get_encoding("gpt2")
+    dataset = InstructionDataset(C.INSTRUCTION_FILE, tokenizer)
+    batch = [[0, 1, 2, 3, 4], [5, 6], [7, 8, 9]]
+    print(instruction_collate(batch))

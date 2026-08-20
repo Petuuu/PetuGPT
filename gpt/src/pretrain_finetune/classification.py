@@ -2,7 +2,7 @@ import config as C
 import tiktoken
 import torch
 import torch.nn.functional as F
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from torch.utils.data import DataLoader
 from src.build.model import GPTModel
@@ -79,7 +79,7 @@ def train_classifier(
     device=C.DEVICE,
 ):
     train_losses, val_losses, train_accs, val_accs = [], [], [], []
-    examples_seen, global_step = 0, -1
+    examples_seen, global_step = [], -1
 
     for epoch in range(n_epochs):
         model.train()
@@ -88,7 +88,7 @@ def train_classifier(
             loss = calc_loss_batch(input_batch, target_batch, model, device)
             loss.backward()
             optimizer.step()
-            examples_seen += input_batch.shape[0]
+            examples_seen.append(input_batch.shape[0])
             global_step += 1
 
             if global_step % eval_freq == 0:
@@ -116,13 +116,14 @@ def train_classifier(
 def plot(epochs, train_losses, val_losses, train_accs, val_accs, examples_seen):
     if isinstance(epochs, int) or len(epochs) != len(val_losses):
         epochs = list(range(1, len(val_losses) + 1))
+    accs = list(range(1, len(train_accs) + 1))
 
     fig, ax1 = plt.subplots(figsize=(5, 3))
 
     ax1.plot(epochs, train_losses, label="Training loss")
     ax1.plot(epochs, val_losses, linestyle="-.", label="Validation loss")
-    ax1.plot(epochs, train_accs, label="Training accuracy")
-    ax1.plot(epochs, val_accs, linestyle="-.", label="Validation accuracy")
+    ax1.plot(accs, train_accs, label="Training accuracy")
+    ax1.plot(accs, val_accs, linestyle="-.", label="Validation accuracy")
 
     ax1.set_xlabel("Checkpoints")
     ax1.set_ylabel("Loss")
@@ -208,7 +209,9 @@ if __name__ == "__main__":
         param.requires_grad = True
 
     n_class = 2
-    model.out_head = torch.nn.Linear(in_features=C.EMB_DIM, out_features=n_class)
+    model.out_head = torch.nn.Linear(in_features=C.EMB_DIM, out_features=n_class).to(
+        C.DEVICE
+    )
 
     train_acc = calc_accuracy_loader(train_loader, model, n_batches=10)
     val_acc = calc_accuracy_loader(val_loader, model, n_batches=10)
@@ -232,10 +235,18 @@ if __name__ == "__main__":
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.1)
     n_epochs = 5
 
-    train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier(
-        model, train_loader, val_loader, optimizer, n_epochs, eval_freq=50, eval_iter=5
+    plot(
+        n_epochs,
+        train_classifier(
+            model,
+            train_loader,
+            val_loader,
+            optimizer,
+            n_epochs,
+            eval_freq=50,
+            eval_iter=5,
+        ),
     )
-    plot(n_epochs, train_losses, val_losses, train_accs, val_accs, examples_seen)
 
     train_acc = calc_accuracy_loader(train_loader, model, n_batches=10)
     val_acc = calc_accuracy_loader(val_loader, model, n_batches=10)
