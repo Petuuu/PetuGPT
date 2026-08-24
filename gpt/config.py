@@ -47,12 +47,12 @@ PRETRAINING_MB = 512 * 1024 * 1024
 # DATA FILES
 
 SAMPLE_FILE = "data/academic_sample.txt"
-TOKENIZER_FILE = "data/academic_tokenizing.txt"
 PRETRAINING_FILE = "data/academic_pretraining.txt"
 SPAM_FILE = "data/spam-data.txt"
 
 # PUBLIC FILES
 
+TOKENIZER_FILE = "public/academic_tokenizing.txt"
 TOKENIZER_CONFIG = "public/tokenizer_config.txt"
 SPAM_TRAIN_CSV = "public/spam-train.csv"
 SPAM_VAL_CSV = "public/spam-val.csv"
