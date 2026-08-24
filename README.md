@@ -19,7 +19,7 @@ Once you have the dependencies installed, navigate to the 'gpt' directory. Final
 By default, the model loaded with OpenAI weights is used. You can use the following flags:
 - -l/--local-pretrain: uses locally pre-trained model
 - -c/--classification: spam classification (fine-tuned)
-- -i/--instruction: follows user given instruction (fine-tuned)
+- -a/--assistant: follows user given instruction (fine-tuned)
 
 
 ### Configuration and parameters

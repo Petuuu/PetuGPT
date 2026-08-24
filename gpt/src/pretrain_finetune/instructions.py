@@ -138,5 +138,5 @@ if __name__ == "__main__":
             "model_state_dict": model.state_dict(),
             "optimizer_state_dict": optimizer.state_dict(),
         },
-        C.INSTRUCTION_MODEL_FILE,
+        C.ASSISTANT_MODEL_FILE,
     )

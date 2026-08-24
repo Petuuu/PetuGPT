@@ -2,11 +2,11 @@ import sys
 import argparse
 import torch
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-l", "--local-pretrain", action="store_true")
-local = parser.parse_args(sys.argv[1:]).local_pretrain
+# parser = argparse.ArgumentParser()
+# parser.add_argument("-l", "--local-pretrain", action="store_true")
+# local = parser.parse_args(sys.argv[1:]).local_pretrain
 
-if local:
+if False:  # locally pretrained weights
     settings = {
         "n_vocab": 45098,
         "n_ctx": 256,
@@ -64,7 +64,7 @@ INSTRUCTION_FILE = "public/instruction-data.json"
 MODEL_FILE = "models/model.pth"
 OPENAI_WEIGHTS_MODEL_FILE = "models/openai_weights_model.pth"
 CLASSIFICATION_MODEL_FILE = "models/classifier_model.pth"
-INSTRUCTION_MODEL_FILE = "models/instruction_model.pth"
+ASSISTANT_MODEL_FILE = "models/assistant_model.pth"
 
 # OTHER
 
