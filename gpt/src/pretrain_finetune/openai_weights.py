@@ -3,7 +3,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import tiktoken
-from src.utils.gpt_download import download_and_load_gpt2
+
+# from src.utils.gpt_download import download_and_load_gpt2
 from src.build.model import GPTModel
 
 

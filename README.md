@@ -11,8 +11,8 @@ You can run the model either locally or using the web interface at https://examp
 
 #### Local use
 
-If you don't already have *PyTorch*, *TensorFlow*, and *tiktoken*, install it with `pip install torch tensorflow tiktoken`. You also need the model
-files from https://huggingface.co/Petuu/PetuGPT. Create a directory `data` in the project root and place the files there.
+If you don't already have *PyTorch* and *tiktoken*, install it with `pip install torch tiktoken`. You also need the model
+files from https://huggingface.co/Petuu/PetuGPT. Create a directory `models` in the project root and place the files there.
 
 Once you have the dependencies installed, navigate to the 'gpt' directory. Finally, run the model with `py -m run {FLAGS}`.
 
